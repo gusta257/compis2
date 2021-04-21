@@ -1,3 +1,4 @@
+import re
 def eliminarEspacio(lista):
     cont = 0
     for i in lista:
@@ -8,8 +9,15 @@ def eliminarEspacio(lista):
     return lista
 def juntar(lista):
     a = []
-    for i in keywords:
+    for i in lista:
         i = i.replace(" ", '')
+        a.append(i)
+
+    return a
+def removePunto(lista):
+    a = []
+    for i in lista:
+        i = i.replace(".", '')
         a.append(i)
 
     return a
@@ -26,7 +34,9 @@ def checkKeyWords(listaCheck):
                 todoB = False
                 break
             numIgual = i.find("=")
-            
+            # HAY QUE REVISAR SI EL BEFORE IGUAL O SEA EL IDENT NO TENGA COSAS QUE NO SEAN LETRAS O NUMEROS COMO
+            # COMILLAS O SIGNOS DE ADMINRACION O COSAS ASI
+
             beforeIgual = i[:numIgual]
             afterIgual = i[numIgual+1:]
 
@@ -131,6 +141,9 @@ cont = 0
 todoB = True
 keyArray = []
 idents = []
+arrayOpIdent = []
+arrayOp = []
+
 for i in characters:
     print("-"*50)
     i = i.replace(" ", "")
@@ -148,6 +161,18 @@ for i in characters:
 
         if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
 
+            x = re.split("\+|\-",afterIgual)
+            print("Separadores de mas y menos",x)
+            for xs in x:
+                if(xs.find("\"") == -1):
+                    arrayOpIdent.append(xs)
+                else:
+                    arrayOp.append(xs)
+            print("Array con strings",arrayOp)
+            arrayOpIdent = removePunto(arrayOpIdent)
+            print("Array con idents",arrayOpIdent)
+
+            '''
             if (afterIgual.find("+") != -1):
                 numOp = afterIgual.find("+")
                 beforeOp = afterIgual[:numOp]
@@ -159,6 +184,15 @@ for i in characters:
             
             print("EL AFTER OP ES",afterOP)
             print("EL beforeOp OP ES",beforeOp)
+            '''
+            for ide in arrayOpIdent:
+                if(ide in idents):
+                    print("No problem ident")
+                else:
+                    print("No hay ident que haga match")
+
+
+        else:
 
             if (afterIgual.find("\"") != -1):
                 if(afterIgual.count("\"") % 2 == 0 ):
