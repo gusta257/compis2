@@ -21,16 +21,19 @@ def removePunto(lista):
         a.append(i)
 
     return a
-
 def checkCharacters(listaCheck):
     cont = 0
     todoB = True
     keyArray = []
     idents = []
     arrayOpIdent = []
-    arrayOp = []
+    arrayOpStr = []
+    arrayOpCHR = []
 
     for i in listaCheck:
+        arrayOpIdent = []
+        arrayOpStr = []
+        arrayOpCHR = []
        # print("*"*50, i)
         i = i.replace(" ", "")
         if(i != "CHARACTERS"):
@@ -51,15 +54,44 @@ def checkCharacters(listaCheck):
                 x = re.split("\+|\-",afterIgual)
                 #print("Separadores de mas y menos",x)
                 for xs in x:
-                    if(xs.find("\"") == -1):
-                        arrayOpIdent.append(xs)
+                    if(xs.find("\"") != -1):
+                        #print("ENTRO A IF 1")
+                        arrayOpStr.append(xs)
+                        
+                    elif(xs.find("CHR") == 0 ):
+                        #print("ENTRO A IF 2")
+                        arrayOpCHR.append(xs)
                     else:
-                        arrayOp.append(xs)
-                #print("Array con strings",arrayOp)
+                        #print("ENTRO A ELSE")
+                        arrayOpIdent.append(xs)
+                #print("Array con strings",arrayOpStr)
+                #print("Array con CHARS",arrayOpCHR)
                 #arrayOpIdent = removePunto(arrayOpIdent)
                 #print("Array con idents",arrayOpIdent)
 
             
+                for chari in arrayOpCHR:
+                    if(chari.endswith(".")):
+                        contPuntos +=1
+                    
+                    chari = chari.replace(".", "")
+                    
+                    numeroCHR = chari.find("CHR(")
+                    finCHR = chari.find(")")
+                    aferCHR = chari[numeroCHR+4:finCHR]
+                    #print(aferCHR)
+                    if(aferCHR.isdigit()):
+                        #print("No problem Char",aferCHR)
+                        pass
+                    else:
+                        print("Dentro del CHAR no hay un numero valido:",i)
+                        todoB = False
+                        break
+                    if(chari.endswith(")") == False):
+                        print("Problema con el CHAR", chari,"de la linea",i)
+                        todoB = False
+                        break
+        
                 for ide in arrayOpIdent:
                     if(ide.endswith(".")):
                         contPuntos +=1
@@ -68,16 +100,16 @@ def checkCharacters(listaCheck):
                      #   print("No problem ident")
                         pass
                     else:
-                        print("No hay ident que haga match")
+                        print("No hay ident que haga match en", i,"ident:", ide)
                         todoB = False
                         break
-                for stri in arrayOp:
+                for stri in arrayOpStr:
                     if(stri.endswith(".")):
                         contPuntos +=1
                     
                     stri = stri.replace(".", "")
                     
-                    if (stri.find("\"") != -1):
+                    if (stri.startswith("\"")):
                         if(stri.count("\"") % 2 == 0 ):
                      #       print("No problem con el string XD", stri)
                             pass
@@ -85,6 +117,12 @@ def checkCharacters(listaCheck):
                             print("FALTA UN \" WEY en:", stri)
                             todoB = False
                             break
+                    else:
+                        print("Problema con este string",stri, "de la linea",i)
+                        todoB = False
+                        break
+
+
                 #print(contPuntos)
                 if(contPuntos == 0 or contPuntos>1):
                     print("Falta un punto o hay uno extra:",i)
@@ -154,7 +192,6 @@ def checkCharacters(listaCheck):
             afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
     return todoB
-
 def checkKeyWords(listaCheck):
     
     cont = 0
@@ -204,7 +241,7 @@ tokBool = False
 characters = []
 keywords = []
 tokens = []
-
+#Lectura
 for line in file:
     line = line.rstrip("\n")
     if("COMPILER" in line):
@@ -277,7 +314,7 @@ else:
 print("*"*100)
 
 EL METODO PARA REVISAR CHARACTERS
-'''
+
 validoC = checkCharacters(characters)
 if(validoC):
     print("Todo bien Jose Luis")
@@ -286,9 +323,9 @@ if(validoC):
 else:
     print("Error")
 
+'''
 
 
-
-
+#checkTokens
 
 
