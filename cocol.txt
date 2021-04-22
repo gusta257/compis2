@@ -7,8 +7,8 @@ CHARACTERS
 
 letter = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".
 digit= "0123456789".
-digit2= "456789".
 hexdigit= digit+"ABCDEF".
+tab = CHR(154513223).
 
 KEYWORDS
 

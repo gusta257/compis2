@@ -21,6 +21,140 @@ def removePunto(lista):
         a.append(i)
 
     return a
+
+def checkCharacters(listaCheck):
+    cont = 0
+    todoB = True
+    keyArray = []
+    idents = []
+    arrayOpIdent = []
+    arrayOp = []
+
+    for i in listaCheck:
+       # print("*"*50, i)
+        i = i.replace(" ", "")
+        if(i != "CHARACTERS"):
+            if "=" not in i:
+                print("Error falta el signo igual en:",i)
+                todoB = False
+                break
+
+            numIgual = i.find("=")
+            beforeIgual = i[:numIgual]
+            idents.append(beforeIgual)
+            afterIgual = i[numIgual+1:]
+
+
+            if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
+                contPuntos = 0
+                #print("EL CHARACTER TIENE DENTRO UN SIMBOLO DE MAS O MENOS")
+                x = re.split("\+|\-",afterIgual)
+                #print("Separadores de mas y menos",x)
+                for xs in x:
+                    if(xs.find("\"") == -1):
+                        arrayOpIdent.append(xs)
+                    else:
+                        arrayOp.append(xs)
+                #print("Array con strings",arrayOp)
+                #arrayOpIdent = removePunto(arrayOpIdent)
+                #print("Array con idents",arrayOpIdent)
+
+            
+                for ide in arrayOpIdent:
+                    if(ide.endswith(".")):
+                        contPuntos +=1
+                        ide = ide.replace(".", '')
+                    if(ide in idents):
+                     #   print("No problem ident")
+                        pass
+                    else:
+                        print("No hay ident que haga match")
+                        todoB = False
+                        break
+                for stri in arrayOp:
+                    if(stri.endswith(".")):
+                        contPuntos +=1
+                    
+                    stri = stri.replace(".", "")
+                    
+                    if (stri.find("\"") != -1):
+                        if(stri.count("\"") % 2 == 0 ):
+                     #       print("No problem con el string XD", stri)
+                            pass
+                        else:
+                            print("FALTA UN \" WEY en:", stri)
+                            todoB = False
+                            break
+                #print(contPuntos)
+                if(contPuntos == 0 or contPuntos>1):
+                    print("Falta un punto o hay uno extra:",i)
+                    todoB = False
+                    break
+                else:
+                    pass
+            else:
+                #print("EL CHARACTER NO TIENE DENTRO UN SIMBOLO DE MAS O MENOS")
+                #print("El AFTER",afterIgual)
+                if (afterIgual.startswith("\"")):
+                    #print("EL CHARACTER ES STRING")
+                    if(afterIgual.count("\"") % 2 == 0 ):
+                        pass
+                    #    print("No problem", afterIgual)
+                    else:
+                        print("FALTA UN \" WEY")
+                        todoB = False
+                        break
+                    if(afterIgual.endswith(".")):
+                        pass
+                    else:
+                        print("FALTA EL PUNTO FINAL ",i)
+                        todoB = False
+                        break
+                elif(afterIgual.find("CHR") != 1):
+                    #print("EL CHARACTER ES CHAR")
+                    numeroCHR = afterIgual.find("CHR(")
+                    finCHR = afterIgual.find(")")
+                    aferCHR = afterIgual[numeroCHR+4:finCHR]
+                    if(aferCHR.isdigit()):
+                        #print("No problem Char")
+                        pass
+                    else:
+                        print("Dentro del CHAR no hay un numero valido:",i)
+                        todoB = False
+                        break
+                    if(afterIgual.endswith(".")):
+                        pass
+                    else:
+                        print("FALTA EL PUNTO FINAL ",i)
+                        todoB = False
+                        break
+                    #print(aferCHR)
+                else:
+                    #print("EL CHARACTER ES IDENT")
+                    afterIgual = afterIgual.replace(".", "")
+                    #print("No tiene strings")
+                    if(afterIgual in idents):
+                        pass
+                        #print("No problem ident")
+                    else:
+                        print("No hay ident que haga match")
+                        todoB = False
+                        break
+                    if(afterIgual.endswith(".")):
+                        pass
+                    else:
+                        print("FALTA EL PUNTO FINAL ",i)
+                        todoB = False
+                        break
+            #print(numIgual)
+            #print(i)
+            #print("IDENT", beforeIgual)
+            #print("El AFTER",afterIgual)
+            afterIgual = afterIgual.replace(".", '')
+            afterIgual = afterIgual.replace("\"", '')
+            #keyArray.append(afterIgual)
+    return todoB
+
 def checkKeyWords(listaCheck):
     
     cont = 0
@@ -39,7 +173,10 @@ def checkKeyWords(listaCheck):
 
             beforeIgual = i[:numIgual]
             afterIgual = i[numIgual+1:]
-
+            if(beforeIgual.startswith("\"") == True or beforeIgual.endswith("\"") == True):
+                print("Error en el ident en:",i)
+                todoB = False
+                break
             if(afterIgual.startswith("\"") == False):
                 print("Error falta un \" en:",i)
                 todoB = False
@@ -51,7 +188,7 @@ def checkKeyWords(listaCheck):
             #print(numIgual)
             #print(i)
             #print(beforeIgual)
-            print(afterIgual)
+            #print(afterIgual)
             afterIgual = afterIgual.replace(".", '')
             afterIgual = afterIgual.replace("\"", '')
             keyArray.append(afterIgual)
@@ -127,94 +264,30 @@ tokens = eliminarEspacio(tokens)
 print(keywords)
 print(characters)
 print(tokens)
+print("-"*100)
 '''
 EL METODO PARA REVISAR KEYWORDS
-valido, kewordArray = checkKeyWords(keywords)
-if(valido):
+
+validoK, kewordArray = checkKeyWords(keywords)
+if(validoK):
     print("Todo bien Jose Luis")
-    print(kewordArray)
+    print(keywords)
 else:
     print("Error")
 print("*"*100)
+
+EL METODO PARA REVISAR CHARACTERS
 '''
-cont = 0
-todoB = True
-keyArray = []
-idents = []
-arrayOpIdent = []
-arrayOp = []
+validoC = checkCharacters(characters)
+if(validoC):
+    print("Todo bien Jose Luis")
+    print(characters)
 
-for i in characters:
-    print("-"*50)
-    i = i.replace(" ", "")
-    if(i != "CHARACTERS"):
-        if "=" not in i:
-            print("Error falta el signo igual en:",i)
-            todoB = False
-            break
-        numIgual = i.find("=")
-        
-        beforeIgual = i[:numIgual]
-        idents.append(beforeIgual)
-        afterIgual = i[numIgual+1:]
+else:
+    print("Error")
 
 
-        if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
 
-            x = re.split("\+|\-",afterIgual)
-            print("Separadores de mas y menos",x)
-            for xs in x:
-                if(xs.find("\"") == -1):
-                    arrayOpIdent.append(xs)
-                else:
-                    arrayOp.append(xs)
-            print("Array con strings",arrayOp)
-            arrayOpIdent = removePunto(arrayOpIdent)
-            print("Array con idents",arrayOpIdent)
-
-            '''
-            if (afterIgual.find("+") != -1):
-                numOp = afterIgual.find("+")
-                beforeOp = afterIgual[:numOp]
-                afterOP = afterIgual[numOp+1:]
-            else:
-                numOp = afterIgual.find("-")
-                beforeOp = afterIgual[:numOp]
-                afterOP = afterIgual[numOp+1:]
-            
-            print("EL AFTER OP ES",afterOP)
-            print("EL beforeOp OP ES",beforeOp)
-            '''
-            for ide in arrayOpIdent:
-                if(ide in idents):
-                    print("No problem ident")
-                else:
-                    print("No hay ident que haga match")
-
-
-        else:
-
-            if (afterIgual.find("\"") != -1):
-                if(afterIgual.count("\"") % 2 == 0 ):
-                    print("No problem", afterIgual)
-                else:
-                    print("FALTA UN \" WEY")
-            else:
-                afterIgual = afterIgual.replace(".", "")
-                print("No tiene strings")
-                if(afterIgual in idents):
-                    print("No problem ident")
-                else:
-                    print("No hay ident que haga match")
-
-       
-        #print(numIgual)
-        print(i)
-        print("IDENT", beforeIgual)
-        print("El AFTER",afterIgual)
-        afterIgual = afterIgual.replace(".", '')
-        afterIgual = afterIgual.replace("\"", '')
-        #keyArray.append(afterIgual)
 
 
 
