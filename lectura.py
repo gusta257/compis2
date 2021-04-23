@@ -191,7 +191,7 @@ def checkCharacters(listaCheck):
             afterIgual = afterIgual.replace(".", '')
             afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
-    return todoB
+    return todoB, idents
 def checkKeyWords(listaCheck):
     
     cont = 0
@@ -284,9 +284,12 @@ for line in file:
         characters.append(line)
         #print("Entre a char")
     elif(tokBool):
+        if(line.endswith(".")):
+            print("Si es valida")
         tokens.append(line)
        #print("Entre a tok")
     elif(keyBool):
+        
         keywords.append(line)
         #print("Entre a key")
     else:
@@ -298,8 +301,8 @@ keywords = eliminarEspacio(keywords)
 keywords = juntar(keywords)
 characters = eliminarEspacio(characters)
 tokens = eliminarEspacio(tokens)
-print(keywords)
-print(characters)
+#print(keywords)
+#print(characters)
 print(tokens)
 print("-"*100)
 '''
@@ -315,7 +318,8 @@ print("*"*100)
 
 EL METODO PARA REVISAR CHARACTERS
 
-validoC = checkCharacters(characters)
+identsCharacter= []
+validoC, identsCharacter = checkCharacters(characters)
 if(validoC):
     print("Todo bien Jose Luis")
     print(characters)
@@ -323,9 +327,29 @@ if(validoC):
 else:
     print("Error")
 
-'''
+
 
 
 #checkTokens
 
+for i in tokens:
+    i = i.replace(" ","")
+    print(i)
+    if(i != "TOKENS"):
+        if "=" not in i:
+            print("Error falta el signo igual en:",i)
+            todoB = False
+            break
+        else:
+            numIgual = i.find("=")
+            beforeIgual = i[:numIgual]
+            afterIgual = i[numIgual+1:]
+            print(afterIgual)
+            #corchetes = afterIgual.find("{")
+            
 
+            
+
+    '''
+
+            
