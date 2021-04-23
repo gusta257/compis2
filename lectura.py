@@ -29,6 +29,7 @@ def checkCharacters(listaCheck):
     arrayOpIdent = []
     arrayOpStr = []
     arrayOpCHR = []
+    nuevoArray = []
 
     for i in listaCheck:
         arrayOpIdent = []
@@ -46,6 +47,9 @@ def checkCharacters(listaCheck):
             beforeIgual = i[:numIgual]
             idents.append(beforeIgual)
             afterIgual = i[numIgual+1:]
+
+            nuevoArray.append(beforeIgual)
+            nuevoArray.append(afterIgual)
 
 
             if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
@@ -191,7 +195,7 @@ def checkCharacters(listaCheck):
             afterIgual = afterIgual.replace(".", '')
             afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
-    return todoB, idents
+    return todoB, idents,nuevoArray
 def checkKeyWords(listaCheck):
     
     cont = 0
@@ -232,6 +236,67 @@ def checkKeyWords(listaCheck):
         
 
     return todoB,keyArray
+def removeExtra(lista):
+    a = []
+    for i in lista:
+        i = " ".join(i.split())
+        a.append(i)
+    return a
+def cantSigno(palabra,signoA,signoC,i):
+    if(palabra.count(signoA) == palabra.count(signoC)):
+        #print("Todo bien en",signoA,i)
+        return True
+    else:
+        print("Te falta calle", i)
+        return False
+def checkTokens(lista):
+    todoB = True
+    llaves = []
+    for i in lista:
+        #i = i.replace(" ","")
+        #print(i)
+        if(i != "TOKENS"):
+            llaves = []
+            #print("-"*50)
+            if "=" not in i:
+                print("Error falta el signo igual en:",i)
+                todoB = False
+                break
+            else:
+                numIgual = i.find("=")
+                beforeIgual = i[:numIgual]
+                afterIgual = i[numIgual+1:]
+                #print(beforeIgual)
+                #print(afterIgual)
+
+                #print("HAY",afterIgual.count("{"),"LLAVES")
+                if(cantSigno(afterIgual,"{","}",i)):
+                    pass
+                else:
+                    todoB = False
+                    break
+                if(cantSigno(afterIgual,"[","]",i)):
+                    pass
+                else:
+                    todoB = False
+                    break
+                if(cantSigno(afterIgual,"(",")",i)):
+                    pass
+                else:
+                    todoB = False
+                    break
+    return todoB
+def Convert(lst):
+    res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
+    return res_dct
+def removerPuntoChar(lista):
+    a = [] 
+    for i in lista:
+        if i.endswith("."):
+            i = i[:-1]
+        i = i.replace("\"", "")
+        a.append(i)
+    return a
 
 file = open('cocol.txt', 'r')
 compBool = False
@@ -241,6 +306,7 @@ tokBool = False
 characters = []
 keywords = []
 tokens = []
+nuevosChars = []
 #Lectura
 for line in file:
     line = line.rstrip("\n")
@@ -281,17 +347,36 @@ for line in file:
     
 
     if(charBool):
-        characters.append(line)
-        #print("Entre a char")
+        if(line.endswith(".") == False and "CHARACTERS" not in line and "=" not in line):
+            characters[-1] =  characters[-1] + line
+        elif(line.endswith(".") == True and "=" not in line):
+            characters[-1] =  characters[-1] + line
+        else:
+            #print("LA LINEA",line)
+            characters.append(line)
+      
+
     elif(tokBool):
-        if(line.endswith(".")):
-            print("Si es valida")
-        tokens.append(line)
-       #print("Entre a tok")
+
+        if(line.endswith(".") == False and "TOKENS" not in line and "=" not in line):
+
+            tokens[-1] =  tokens[-1] + line
+        elif(line.endswith(".") == True and "=" not in line):
+            tokens[-1] =  tokens[-1] + line
+        else:
+            #print("LA LINEA",line)
+            tokens.append(line)
+
     elif(keyBool):
-        
-        keywords.append(line)
-        #print("Entre a key")
+
+        if(line.endswith(".") == False and "KEYWORDS" not in line and "=" not in line):
+            keywords[-1] =  keywords[-1] + line
+        elif(line.endswith(".") == True and "=" not in line):
+            keywords[-1] =  keywords[-1] + line
+        else:
+            #print("LA LINEA",line)
+            keywords.append(line)
+
     else:
         pass
 
@@ -299,57 +384,104 @@ for line in file:
 
 keywords = eliminarEspacio(keywords)
 keywords = juntar(keywords)
+keywords = removeExtra(keywords)
 characters = eliminarEspacio(characters)
+characters = removeExtra(characters)
 tokens = eliminarEspacio(tokens)
-#print(keywords)
-#print(characters)
+print(keywords)
+print(characters)
+tokens = removeExtra(tokens)
 print(tokens)
-print("-"*100)
+
+print("*"*100)
 '''
 EL METODO PARA REVISAR KEYWORDS
-
+'''
 validoK, kewordArray = checkKeyWords(keywords)
 if(validoK):
     print("Todo bien Jose Luis")
-    print(keywords)
+    #print(keywords)
 else:
     print("Error")
 print("*"*100)
-
+'''
 EL METODO PARA REVISAR CHARACTERS
-
+'''
 identsCharacter= []
-validoC, identsCharacter = checkCharacters(characters)
+validoC, identsCharacter,nuevosChars = checkCharacters(characters)
 if(validoC):
     print("Todo bien Jose Luis")
-    print(characters)
+    #print(characters)
+
+else:
+    print("Error")
+print("*"*100)
+'''
+EL METODO PARA REVISAR TOKENS
+'''
+validoT = checkTokens(tokens)
+if(validoT):
+    print("Todo bien Jose Luis")
+    #print(tokens)
 
 else:
     print("Error")
 
 
+print("*"*100)
+
+llaves = []
+nuevosChars = removerPuntoChar(nuevosChars)
+nuevoDic = Convert(nuevosChars)
+print(nuevoDic)
+prueba = ""
+
+for key in sorted(nuevoDic,key=len, reverse=True):
+    llaves.append(key)
+
+for key in sorted(nuevoDic,key=len, reverse=True):
+    for i in llaves:
+        if(i in nuevoDic[key]):
+            nuevoDic[key] = nuevoDic[key].replace(i ,nuevoDic[i])
+
+for key, values in nuevoDic.items():
+    if("+" in  values):
+        print("HAY CAMBIO DE SUMA", key, values)
+        nuevoDic[key] = nuevoDic[key].replace("+", "")
+    #if("-" in values):
+    #    print("HAY CAMBIO DE RESTA", key, values)
+    #    resta = values.find("-")
+    #    nuevoDic[key] = nuevoDic[key].translate({ord(i): None for i in 'abc'})
 
 
-#checkTokens
-
-for i in tokens:
-    i = i.replace(" ","")
-    print(i)
-    if(i != "TOKENS"):
-        if "=" not in i:
-            print("Error falta el signo igual en:",i)
-            todoB = False
-            break
-        else:
-            numIgual = i.find("=")
-            beforeIgual = i[:numIgual]
-            afterIgual = i[numIgual+1:]
-            print(afterIgual)
-            #corchetes = afterIgual.find("{")
+        
+print("*"*100)
+print(nuevoDic)
             
 
+#transformacion characters 1
+#for i in nuevosChars:
+#    print(i)
+
+                
+                
+                
+
             
 
-    '''
 
-            
+
+
+
+
+
+
+
+
+
+# TE TOCA VER QUE METAN BIEN LOS TOKENS
+# TRANSFORMARL LOS IDENTS
+# PASARLO A EXPRESION REGULAR
+#PASARLO A TU AUTOMATA
+#LITO
+
