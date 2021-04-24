@@ -1,4 +1,8 @@
 import re
+def char_range(c1, c2):
+    """Generates the characters from `c1` to `c2`, inclusive."""
+    for c in range(ord(c1), ord(c2)+1):
+        yield chr(c)
 def eliminarEspacio(lista):
     cont = 0
     for i in lista:
@@ -30,8 +34,10 @@ def checkCharacters(listaCheck):
     arrayOpStr = []
     arrayOpCHR = []
     nuevoArray = []
+    superSrtring = ""
 
     for i in listaCheck:
+        superSrtring = ""
         arrayOpIdent = []
         arrayOpStr = []
         arrayOpCHR = []
@@ -48,8 +54,8 @@ def checkCharacters(listaCheck):
             idents.append(beforeIgual)
             afterIgual = i[numIgual+1:]
 
-            nuevoArray.append(beforeIgual)
-            nuevoArray.append(afterIgual)
+            
+            #print("EL AFERT",afterIgual)
 
 
             if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
@@ -87,6 +93,7 @@ def checkCharacters(listaCheck):
                     if(aferCHR.isdigit()):
                         #print("No problem Char",aferCHR)
                         pass
+                        afterIgual = chr(int(aferCHR))
                     else:
                         print("Dentro del CHAR no hay un numero valido:",i)
                         todoB = False
@@ -138,7 +145,7 @@ def checkCharacters(listaCheck):
                 #print("EL CHARACTER NO TIENE DENTRO UN SIMBOLO DE MAS O MENOS")
                 #print("El AFTER",afterIgual)
                 if (afterIgual.startswith("\"")):
-                    #print("EL CHARACTER ES STRING")
+                    #print("EL CHARACTER ES STRING",afterIgual)
                     if(afterIgual.count("\"") % 2 == 0 ):
                         pass
                     #    print("No problem", afterIgual)
@@ -152,11 +159,14 @@ def checkCharacters(listaCheck):
                         print("FALTA EL PUNTO FINAL ",i)
                         todoB = False
                         break
-                elif(afterIgual.find("CHR") != 1):
-                    #print("EL CHARACTER ES CHAR")
+                elif(afterIgual.find("CHR") != -1):
+                    #print("EL CHARACTER ES CHAR",afterIgual)
+                    #print(afterIgual.find("CHR"))
                     numeroCHR = afterIgual.find("CHR(")
                     finCHR = afterIgual.find(")")
                     aferCHR = afterIgual[numeroCHR+4:finCHR]
+                    #print(aferCHR)
+                    
                     if(aferCHR.isdigit()):
                         #print("No problem Char")
                         pass
@@ -171,8 +181,68 @@ def checkCharacters(listaCheck):
                         todoB = False
                         break
                     #print(aferCHR)
+                    afterIgual = chr(int(aferCHR))
+                elif(afterIgual.find("..")!=-1):
+                    #print("ES UN RANGO CHAR CON COMILLA", afterIgual)
+                    if(afterIgual.endswith(".")):
+                        pass
+                    else:
+                        print("LE FALTA UN PUNTO ")
+                        todoB = False
+                        break
+                    afterIgual = afterIgual.replace("\'", "")
+                    posiPunto = afterIgual.find("..")
+                    charIincial = afterIgual[:posiPunto]
+                    
+                    charFinal = afterIgual[posiPunto+2:]
+                    
+                    charFinal = charFinal.replace(".", "")
+                    #print(afterIgual)
+                    #print(charIincial)
+                    #print(charFinal)
+                    if(len(charIincial) == 1 and len(charFinal) == 1):
+                        
+                        for c in char_range(charIincial, charFinal):
+                            superSrtring +=  c
+                        
+                        afterIgual = superSrtring
+                        pass
+                    else:
+                        print("Entrada no valida")
+                        todoB = False
+                        break
+                    #print(charIincial.isalpha())
+                    #print(charFinal.isalpha())
+                    if(ord(charIincial) < (ord(charFinal))):
+                        pass
+                    else:
+                        print("RANGO NO VALIDO")
+                        todoB = False
+                        break
+                    
+                    #char_range('a', 'z')
+                elif(afterIgual.startswith("\'")):
+                    if(afterIgual.endswith(".")):
+                        pass
+                    else:
+                        print("LE FALTA UN PUNTO ")
+                        todoB = False
+                        break
+                    #print("ES UN  CHAR CON COMILLA", afterIgual)
+                    tempComilla = afterIgual
+                    tempComilla = tempComilla.replace("\'", "")
+                    tempComilla = tempComilla.replace(".", "")
+                    #print(tempComilla)
+                    if(len(tempComilla) ==1):
+                        pass
+                        afterIgual = afterIgual.replace("\'", "")
+                    else:
+                        print("Entrada no valida")
+                        todoB = False
+                        break
+
                 else:
-                    #print("EL CHARACTER ES IDENT")
+                    print("EL CHARACTER ES IDENT",afterIgual)
                     afterIgual = afterIgual.replace(".", "")
                     #print("No tiene strings")
                     if(afterIgual in idents):
@@ -192,6 +262,8 @@ def checkCharacters(listaCheck):
             #print(i)
             #print("IDENT", beforeIgual)
             #print("El AFTER",afterIgual)
+            nuevoArray.append(beforeIgual)
+            nuevoArray.append(afterIgual)
             afterIgual = afterIgual.replace(".", '')
             afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
@@ -399,7 +471,7 @@ EL METODO PARA REVISAR KEYWORDS
 '''
 validoK, kewordArray = checkKeyWords(keywords)
 if(validoK):
-    print("Todo bien Jose Luis")
+    print("Todo bien Jose Luis keywords")
     #print(keywords)
 else:
     print("Error")
@@ -410,7 +482,7 @@ EL METODO PARA REVISAR CHARACTERS
 identsCharacter= []
 validoC, identsCharacter,nuevosChars = checkCharacters(characters)
 if(validoC):
-    print("Todo bien Jose Luis")
+    print("Todo bien Jose Luis characters")
     #print(characters)
 
 else:
@@ -421,18 +493,20 @@ EL METODO PARA REVISAR TOKENS
 '''
 validoT = checkTokens(tokens)
 if(validoT):
-    print("Todo bien Jose Luis")
+    print("Todo bien Jose Luis tokens")
     #print(tokens)
 
 else:
     print("Error")
 
 
-print("*"*100)
+
 
 llaves = []
 nuevosChars = removerPuntoChar(nuevosChars)
+
 nuevoDic = Convert(nuevosChars)
+print("*"*100)
 print(nuevoDic)
 prueba = ""
 
@@ -444,16 +518,46 @@ for key in sorted(nuevoDic,key=len, reverse=True):
         if(i in nuevoDic[key]):
             nuevoDic[key] = nuevoDic[key].replace(i ,nuevoDic[i])
 
+print("*"*100)
+print(nuevoDic)
+
 for key, values in nuevoDic.items():
+    
+    while nuevoDic[key].find("-") > -1:
+        #print("EL DIC DE PORQUEERIA",nuevoDic[key])
+    #if(values.find("-")>-1):
+        #print(key)
+        temp_index =  nuevoDic[key].find("-")
+        #print("El temp_index del inicio del ciclo",temp_index)
+        if( nuevoDic[key].find("+",temp_index+1) > -1):
+            next_index =  nuevoDic[key].find("+",temp_index+1)
+        elif( nuevoDic[key].find("-",temp_index+1) > -1):
+            next_index =  nuevoDic[key].find("-",temp_index+1)
+        else:
+            next_index = -1
+        #print("next_index",next_index)
+        first_element =  nuevoDic[key][:temp_index]
+        #print("first element",first_element)
+        if next_index > -1:
+            second_element =  nuevoDic[key][temp_index+1:next_index]
+            #print("second_element",second_element)
+            cont_word =  nuevoDic[key][next_index:]
+            new_word = first_element.translate({ord(i): None for i in second_element})
+            #print("la cont_word",cont_word)
+            #print("la new_word",new_word)
+            nuevoDic[key] = new_word+cont_word
+            #print("el nuevo value",nuevoDic[key])
+        else:
+            second_element =  nuevoDic[key][temp_index+1:]
+            #print("el second_element",second_element)
+            new_word = first_element.translate({ord(i): None for i in second_element})
+            nuevoDic[key] = new_word
+        
     if("+" in  values):
-        print("HAY CAMBIO DE SUMA", key, values)
+        #print("HAY CAMBIO DE SUMA", key, values)
         nuevoDic[key] = nuevoDic[key].replace("+", "")
-    #if("-" in values):
-    #    print("HAY CAMBIO DE RESTA", key, values)
-    #    resta = values.find("-")
-    #    nuevoDic[key] = nuevoDic[key].translate({ord(i): None for i in 'abc'})
-
-
+    
+    
         
 print("*"*100)
 print(nuevoDic)
