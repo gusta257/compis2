@@ -136,6 +136,8 @@ rAFD = arreglar1(rAFD)
 rAFD = arreglar2(rAFD) 
 r = rAFD
 
+print("LA RE ES ", r)
+
 # SE UTILIZA LA MISMA LECTURA DE DATOS SOLO QUE ESTA VEZ PARA ARMAR EL ARBOL 
 while i < len(r):
     if r[i] == '(':
@@ -215,16 +217,18 @@ aceptacion = []
 for i in arboles:
     if(i.get_valor() =='#'):
         aceptacion.append(i.get_iDImportante())
-    #if(len(i.get_hijos()) > 1):
-    #    if(i.get_padreID() != ""):
-    #        print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
-    #    else:
-    #        print("LA HOJA",i.get_id(),i.get_valor(),"ES LA RAIZ Y ES PADRE DE",i.get_hijos()[0].get_id(), "Y DE",i.get_hijos()[1].get_id())
-    #elif(len(i.get_hijos()) == 1):
-    #    print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
-    #else:
-    #    print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
-
+    '''
+    if(len(i.get_hijos()) > 1):
+        if(i.get_padreID() != ""):
+            print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
+        else:
+            print("LA HOJA",i.get_id(),i.get_valor(),"ES LA RAIZ Y ES PADRE DE",i.get_hijos()[0].get_id(), "Y DE",i.get_hijos()[1].get_id())
+    elif(len(i.get_hijos()) == 1):
+        print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
+    else:
+        print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
+    '''
+    
 importantes = claseAFDD.get_importantValues()
 #for elemento in importantes:
 #    print(elemento[0].get_valor(), "numero",elemento[1],"id",elemento[2])
@@ -362,6 +366,7 @@ positions = []
 for i in arboles:
     #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
+
 followvalores = []
 followPosition = []
 followTotal = []
@@ -405,6 +410,10 @@ for i in followvalores:
     for j in i:
         respuesta.append([j])
 
+#PRINTS NECESARIOS PARA DEBUGEAR
+#for i in respuesta:
+#    print("LA RESPUESTA",i)
+
 #LLENADO DE VALORES DE FOLLOW POS
 for i in range(len(followvalores)):
     for j in followvalores[i]:
@@ -428,6 +437,10 @@ for i in respuesta:
         ##print("LA",i)
         respuesta.remove(i)
 
+#PRINTS NECESARIOS PARA DEBUGEAR
+#for i in respuesta:
+#    print("LA RESPUESTA2",i)
+
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
 for i in arboles:
@@ -442,6 +455,8 @@ simbolos = resT
 for i in positions:
     if(i[0].get_padreID() == ""):
         firstposRoot = i[1]
+
+
 
 # METODO PARA CREAR LOS ESTADOS DEL AUTOMATA FINAL 
 def Directo(firstposRoot, simbolos, importantes):
@@ -484,8 +499,24 @@ def Directo(firstposRoot, simbolos, importantes):
             numeros.clear() 
     return transicionesNuevas, dEstates
 
+#PRINTS NECESARIOS PARA DEBUGEAR
+#print("firstposRoot",firstposRoot)
+#print("simbolos",simbolos)
+#print("importantes",importantes)
+#for i in importantes:
+#    print("importantes",i[0].get_valor(),i[0].get_id(),i[0].get_iDImportante())
+
+
 #OBTENCION DE AUTOMATA
 transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
+
+#PRINTS NECESARIOS PARA DEBUGEAR
+#for i in dEstates:
+#    print("LA DESTASTE",i)
+
+#PRINTS NECESARIOS PARA DEBUGEAR
+#for i in dEstates:
+#    print("LA TRANS",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
@@ -531,6 +562,8 @@ for i in aceptacionA:
     fad.attr('node', shape='doublecircle')
     fad.node(i)
 estadosA = []
+
+
 for i in transicionesNuevas:
     estadosA.append(i[0])
     estadosA.append(i[2])
