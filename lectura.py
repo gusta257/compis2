@@ -33,6 +33,7 @@ def checkCharacters(listaCheck):
     arrayOpIdent = []
     arrayOpStr = []
     arrayOpCHR = []
+    arrayOpCH = []
     nuevoArray = []
     superSrtring = ""
 
@@ -40,9 +41,12 @@ def checkCharacters(listaCheck):
         superSrtring = ""
         arrayOpIdent = []
         arrayOpStr = []
+        arrayOpCH = []
         arrayOpCHR = []
        # print("*"*50, i)
+        #if("+' '." not in i):
         i = i.replace(" ", "")
+
         if(i != "CHARACTERS"):
             if "=" not in i:
                 print("Error falta el signo igual en:",i)
@@ -60,9 +64,15 @@ def checkCharacters(listaCheck):
 
             if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
                 contPuntos = 0
-                #print("EL CHARACTER TIENE DENTRO UN SIMBOLO DE MAS O MENOS")
+                #print("EL CHARACTER TIENE DENTRO UN SIMBOLO DE MAS O MENOS",i)
+                print("."*100)
+                condicion = re.findall(r'\'(.*?)\'', i)
+                print(len(condicion))
+                print(condicion)
+                print("."*100)
+                
                 x = re.split("\+|\-",afterIgual)
-                #print("Separadores de mas y menos",x)
+                print("Separadores de mas y menos",x)
                 for xs in x:
                     if(xs.find("\"") != -1):
                         #print("ENTRO A IF 1")
@@ -71,15 +81,34 @@ def checkCharacters(listaCheck):
                     elif(xs.find("CHR") == 0 ):
                         #print("ENTRO A IF 2")
                         arrayOpCHR.append(xs)
+                    elif(xs.startswith("'")):
+                        #print("HAY UN A COMILLA SIMPLE",i)
+                        arrayOpCH.append(xs)
                     else:
                         #print("ENTRO A ELSE")
                         arrayOpIdent.append(xs)
                 #print("Array con strings",arrayOpStr)
-                #print("Array con CHARS",arrayOpCHR)
+                print("Array con CHARS",arrayOpCHR)
                 #arrayOpIdent = removePunto(arrayOpIdent)
                 #print("Array con idents",arrayOpIdent)
 
-            
+                for charN in arrayOpCH:
+                    
+                    if(charN.endswith(".")):
+                        contPuntos +=1
+                    charN = charN.replace(".", "")
+                    print("EL CHAR N ES:", charN)
+                    if(charN == "''"):
+                        print("ENTRAMOS")
+                        afterIgual = afterIgual.replace(charN,"\' \'")
+                    else:
+                        if(len(charN)==3):
+                            pass
+                        else:
+                            print("CHAR INVALIDO",i)
+                            todoB = False
+                            break
+
                 for chari in arrayOpCHR:
                     if(chari.endswith(".")):
                         contPuntos +=1
@@ -92,8 +121,10 @@ def checkCharacters(listaCheck):
                     #print(aferCHR)
                     if(aferCHR.isdigit()):
                         #print("No problem Char",aferCHR)
+                        #print("QUE ES AFERCHR",aferCHR)
+                        #print("QUE ES CHARI", chari)
                         pass
-                        afterIgual = chr(int(aferCHR))
+                        afterIgual = afterIgual.replace(chari,chr(int(aferCHR)))
                     else:
                         print("Dentro del CHAR no hay un numero valido:",i)
                         todoB = False
@@ -142,7 +173,7 @@ def checkCharacters(listaCheck):
                 else:
                     pass
             else:
-                #print("EL CHARACTER NO TIENE DENTRO UN SIMBOLO DE MAS O MENOS")
+                #print("EL CHARACTER NO TIENE DENTRO UN SIMBOLO DE MAS O MENOS",i)
                 #print("El AFTER",afterIgual)
                 if (afterIgual.startswith("\"")):
                     #print("EL CHARACTER ES STRING",afterIgual)
@@ -269,7 +300,7 @@ def checkCharacters(listaCheck):
             #keyArray.append(afterIgual)
     return todoB, idents,nuevoArray
 def checkKeyWords(listaCheck):
-    
+    nuevoArray = []
     cont = 0
     todoB = True
     keyArray = []
@@ -305,9 +336,11 @@ def checkKeyWords(listaCheck):
             afterIgual = afterIgual.replace(".", '')
             afterIgual = afterIgual.replace("\"", '')
             keyArray.append(afterIgual)
+            nuevoArray.append(beforeIgual)
+            nuevoArray.append(afterIgual)
         
 
-    return todoB,keyArray
+    return todoB,keyArray,nuevoArray
 def removeExtra(lista):
     a = []
     for i in lista:
@@ -324,6 +357,7 @@ def cantSigno(palabra,signoA,signoC,i):
 def checkTokens(lista):
     todoB = True
     llaves = []
+    nuevoA = []
     for i in lista:
         #i = i.replace(" ","")
         #print(i)
@@ -340,7 +374,8 @@ def checkTokens(lista):
                 afterIgual = i[numIgual+1:]
                 #print(beforeIgual)
                 #print(afterIgual)
-
+                nuevoA.append(beforeIgual)
+                nuevoA.append(afterIgual)
                 #print("HAY",afterIgual.count("{"),"LLAVES")
                 if(cantSigno(afterIgual,"{","}",i)):
                     pass
@@ -357,7 +392,9 @@ def checkTokens(lista):
                 else:
                     todoB = False
                     break
-    return todoB
+        
+        
+    return todoB, nuevoA
 def Convert(lst):
     res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
     return res_dct
@@ -469,13 +506,13 @@ print("*"*100)
 '''
 EL METODO PARA REVISAR KEYWORDS
 '''
-validoK, kewordArray = checkKeyWords(keywords)
+validoK, kewordArray, nuevasKeywords = checkKeyWords(keywords)
 if(validoK):
     print("Todo bien Jose Luis keywords")
     #print(keywords)
 else:
     print("Error")
-print("*"*100)
+#print("*"*100)
 '''
 EL METODO PARA REVISAR CHARACTERS
 '''
@@ -487,11 +524,11 @@ if(validoC):
 
 else:
     print("Error")
-print("*"*100)
+#print("*"*100)
 '''
 EL METODO PARA REVISAR TOKENS
 '''
-validoT = checkTokens(tokens)
+validoT, nuevoTokens = checkTokens(tokens)
 if(validoT):
     print("Todo bien Jose Luis tokens")
     #print(tokens)
@@ -506,8 +543,20 @@ llaves = []
 nuevosChars = removerPuntoChar(nuevosChars)
 
 nuevoDic = Convert(nuevosChars)
-print("*"*100)
+nuevoDicK = Convert(nuevasKeywords)
+nuevodicT = Convert(nuevoTokens)
+'''
+print("-"*100)
+print("CHARS PASADO A DIC")
 print(nuevoDic)
+print("-"*100)
+print("KEYS PASADO A DIC")
+print(nuevoDicK)
+print("-"*100)
+print("TOKENS PASADO A DIC")
+print(nuevodicT)
+print("-"*100)
+'''
 prueba = ""
 
 for key in sorted(nuevoDic,key=len, reverse=True):
@@ -518,8 +567,9 @@ for key in sorted(nuevoDic,key=len, reverse=True):
         if(i in nuevoDic[key]):
             nuevoDic[key] = nuevoDic[key].replace(i ,nuevoDic[i])
 
-print("*"*100)
-print(nuevoDic)
+#print("*"*100)
+#print("EL REEMPLAZO DE VARIABLES")
+#print(nuevoDic)
 
 for key, values in nuevoDic.items():
     
@@ -559,19 +609,70 @@ for key, values in nuevoDic.items():
     
     
         
+#print("*"*100)
+#print("REMPLAZO DE SUAS Y RESTAS")
+#print(nuevoDic)
+
+
+for key, value in nuevoDic.items():
+    megaString = ""
+    pos = -1
+    for i in value:
+        pos += 1
+        if pos != len(value) - 1:
+            megaString += i+"|"
+        else:
+            megaString += i
+    nuevoDic[key] = megaString
+
+#print("*"*100)
+#print("REMPLAZO DE PIPES")
+#print(nuevoDic)
+#print("*"*100)
+
+
+
+for key, value in nuevodicT.items():
+    for i in value:
+        if(i == "{"):
+            nuevodicT[key] = nuevodicT[key].replace(i, "(")
+        elif(i == "}"):
+            nuevodicT[key] = nuevodicT[key].replace(i, ")*")
+
+for key, value in nuevodicT.items():
+    for i in nuevoDic:
+        nuevodicT[key] = nuevodicT[key].replace(i, "("+nuevoDic[i]+")")
+
+dictExcept = {}
+for k,v in nuevodicT.items():
+    for k1,v1 in nuevoDicK.items():
+        if("EXCEPT KEYWORDS" in v):
+            dictExcept[k] = nuevoDicK
+        else:
+            dictExcept[k] = {}
+
+        
+'''
+cont = 0
+    print(len(value))
+    print("EL VALUE",value)
+    while(0 < len(value)-1):
+        if(value[cont] == "{"):
+            print(nuevodicT[key])
+        cont+=1
+
+'''
 print("*"*100)
-print(nuevoDic)
-            
-
-#transformacion characters 1
-#for i in nuevosChars:
-#    print(i)
-
-                
-                
-                
-
-            
+print("FINAL")
+print("*"*100)
+print("TOKENS QUE VAN AL AUTOMATA")
+print(nuevodicT)
+print("*"*100)
+print("KEYWORDS PARA REVISAR EN EL EXCEPT")
+print(nuevoDicK)
+print("*"*100)
+print("EXCEPT")
+print(dictExcept)
 
 
 
@@ -581,11 +682,6 @@ print(nuevoDic)
 
 
 
-
-
-# TE TOCA VER QUE METAN BIEN LOS TOKENS
-# TRANSFORMARL LOS IDENTS
-# PASARLO A EXPRESION REGULAR
 #PASARLO A TU AUTOMATA
 #LITO
 
