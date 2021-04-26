@@ -24,6 +24,8 @@ class Arbol:
 
         if(len(val1) == 1 and len(val2) == 1 and op =='|'):
             #print("IF DE PIPE DE UNA LETRA CON OTRA LETRA")
+            #print("EL VAL 1 ES",val1)
+            #print("EL VAL 2 ES",val2)
             # NODO 1 
             id+=1
             
@@ -67,6 +69,10 @@ class Arbol:
 
             self.estructuras.append(hoja3.get_id())
             self.nodoFinal = self.estructuras[-1]
+            #print("HIJO 1 CREADO",hoja1.get_valor(),"SU PADRE ES",hoja1.get_padreID().get_valor())
+            #print("HIJO 2 CREADO",hoja2.get_valor(),"SU PADRE ES",hoja2.get_padreID().get_valor())
+            #print("PADRE DE ESTOS 2",hoja3.get_valor())
+            #print("*"*100)
             ##print("LAS ESTRUCTURAS LUEGO DEL ASTERISCO PIPE DE LETRA Y LETRA",self.estructuras)
 
 
@@ -121,7 +127,11 @@ class Arbol:
             self.estructuras.pop()
             self.estructuras.append(hoja1.get_id())
 
-
+            #print("HIJO 1 CREADO",hojaH1.get_valor(),hojaH1.get_id(),"SU PADRE ES",hojaH1.get_padreID().get_valor())
+            #print("HIJO 2 CREADO",hojaH2.get_valor(),"SU PADRE ES",hojaH2.get_padreID().get_valor())
+            #print("PADRE DE ESTOS 2",hoja1.get_valor())
+            #print("*"*100)
+            #print("ESTRUCTURAS DESPUES",self.estructuras)
 
     def crear_nodosStar(self,val1,op):
         global id
@@ -130,7 +140,8 @@ class Arbol:
         ##print("El val 1 es", val1, "y es de largo de",len(val1))
 
         if(len(val1) == 1 and op =='*'):
-            #print("IF DE ESTRELLA DONDE EL VAL ES 1")
+            print("IF DE ESTRELLA DONDE EL VAL ES 1")
+            print("EL VAL 1 ES",val1)
             id+=1
             if(val1 != "ε"):
                 idImp+=1
@@ -152,9 +163,15 @@ class Arbol:
 
             self.estructuras.append(hoja2.get_id())
 
+            print("HIJO 1 CREADO",hoja1.get_valor(),"SU PADRE ES",hoja1.get_padreID().get_valor())
+            print("PADRE DE ESTE",hoja2.get_valor())
+            print("*"*100)
+
             
         else:
             #print("IF DE STAR DE UNA OPERACION")
+            #print("EL VAL 1 ES",val1)
+            
 
             # NODOS ACTUALIZADOS
             hojaH = self.nodos[-1]  
@@ -169,6 +186,12 @@ class Arbol:
 
             hojaH.set_padreID(hoja1)
             hoja1.set_hijos(hojaH)
+
+
+            #print("HIJO 1 CREADO",hojaH.get_valor(),"SU PADRE ES",hojaH.get_padreID().get_valor())
+            
+            #print("PADRE DE ESTE",hoja1.get_valor())
+            #print("*"*100)
 
             
             
@@ -190,6 +213,9 @@ class Arbol:
         #print("El val 2 es", val2, "y es de largo de",len(val2))
         if(len(val2)==1 and len(val1)>1):
             #print("IF DE CONCATENAR ESTRUCTURA CON NODO")
+            #print("EL VAL 1 ES",val1)
+            #print("EL VAL 2 ES",val2)
+            #print("ESTRUCUTRAS ANTES",self.estructuras)
             # NODOS OPERACION
             hojaH1 = self.nodos[-1]
             id+=1
@@ -220,15 +246,25 @@ class Arbol:
             self.estructuras.pop()
             self.estructuras.append(hoja2.get_id())
 
+            #print("HIJO 1 CREADO",hojaH1.get_valor(),"SU PADRE ES",hojaH1.get_padreID().get_valor())
+            #print("HIJO 2 CREADO",hojaH2.get_valor(),"SU PADRE ES",hojaH2.get_padreID().get_valor())
+            #print("PADRE DE ESTOS 2",hoja2.get_valor())
+            #print("*"*100)
+            #print("ESTRUCUTRAS DESPUES",self.estructuras)
+
 
 
             ##print("LAS ESTRUCTURAS LUEGO DEL PIPE DE 1 Y ESTRUCTURA",self.estructuras)
         elif(len(val2)>1 and len(val1)==1):
             print("IF DE CONCATENAR NODO CON ESTRUCTURA")
+            print("EL VAL 1 ES",val1)
+            print("EL VAL 2 ES",val2)
             #print("*"*500)
             
         elif(len(val2)==1 and len(val1)==1):
             #print("IF DE CONCATENACION SI VAL 1 Y 2 SON LEN 1")
+            #print("EL VAL 1 ES",val1)
+            #print("EL VAL 2 ES",val2)
             id+=1
             ##print("EL ID DEL HIJO1",hojaH1.get_id())
             if(val1 != "ε"):
@@ -270,6 +306,9 @@ class Arbol:
             #print("*"*500)
         else:
             #print("IF CONCAT DE ESTRUCTURA CON ESTRUCTURA")
+            #print("EL VAL 1 ES",val1)
+            #print("EL VAL 2 ES",val2)
+            #print("ESTRUCUTRAS ANTES",self.estructuras)
             hojaH2 = self.nodos[self.estructuras[-1]-1]
             hojaH1 = self.nodos[self.estructuras[-2]-1]
             id+=1
@@ -285,7 +324,16 @@ class Arbol:
 
             #print("ESTRUCTURAS CONCAT EST NODO", self.estructuras)
             self.estructuras.pop()
+            self.estructuras.pop()
             self.estructuras.append(hoja2.get_id())
+
+            #print("HIJO 1 CREADO",hojaH1.get_valor(),"SU PADRE ES",hojaH1.get_padreID().get_valor())
+            #print("HIJO 2 CREADO",hojaH2.get_valor(),"SU PADRE ES",hojaH2.get_padreID().get_valor())
+            #print("PADRE DE ESTOS 2",hoja2.get_valor())
+            #print("*"*100)
+            #print("ESTRUCUTRAS DESPUES",self.estructuras)
+
+            
             
 
 

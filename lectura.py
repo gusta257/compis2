@@ -817,12 +817,12 @@ ops = []
 i = 0 
 nodos = []
 # AGREGANDO AL REGEX EL # FINAL Y LAS CONVERSIONES NECESARIA
-rAFD = "("+rAFD+")#"
+rAFD = rAFD
 rAFD = arreglar1(rAFD)
 rAFD = arreglar2(rAFD) 
 r = rAFD
 
-print("LA RE ES ", r)
+#print("LA RE ES ", r)
 
 # SE UTILIZA LA MISMA LECTURA DE DATOS SOLO QUE ESTA VEZ PARA ARMAR EL ARBOL 
 while i < len(r):
@@ -877,18 +877,18 @@ while i < len(r):
             #values.append(applyOp(val1, val2, op))
     i+=1
 while len(ops) != 0:
-    ##print("entre aca")
+    #print("entre aca")
     val2 = values.pop()
     val1 = values.pop()
     op = ops.pop()
     temp = val1+op+val2
     nodos.append(temp)
     if(op == '|'):
-        ##print("Para el pipe")
+        #print("Para el pipe")
         claseAFDD.crearHojasPipe(val1,val2,op)
     elif(op == '.'):
         claseAFDD.crear_nodosCat(val1,val2,op)
-        ##print("Para el concat")
+        #print("Para el concat")
         
     else:
         print("MMM ESTRELLA?")
@@ -1058,11 +1058,13 @@ followPosition = []
 followTotal = []
 #print("*"*100)
 
+#print("LAS POSITIONS",positions)
+
 #ASIGNACION DEL FOLLOW POS
 for i in positions:
     if(i[0].get_valor() == "."):
-        ##print(i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
-        ##print(i[0].get_valor(), i[0].get_hijos()[1].get_valor(),i[1],i[2])
+        #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
+        #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[1].get_valor(),i[1],i[2])
         hijo1 =  i[0].get_hijos()[0]
         hijo2 =  i[0].get_hijos()[1]
         for posicion in positions:
@@ -1080,7 +1082,7 @@ for i in positions:
 
 
     elif(i[0].get_valor() == "*"):
-        #print(i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
+        #print("PARA EL ASTERISCO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
         #print("PARA LA POS XD", i[2],"EL FOLLOW POS XD", i[1])
         followvalores.append(i[2])
         followPosition.append(i[1])
@@ -1090,6 +1092,34 @@ for i in positions:
 
 
 
+#print("*"*100)
+#print("Estas posiciones se les asigna ", followvalores)
+#print("Este valor de followpos", followPosition)
+#print("*"*100)
+def my_function(x):
+      return list(dict.fromkeys(x))
+diccionarioFollow = {}
+conti = 0
+for i in followvalores:
+    
+    for valor in i:
+        #print("La posicion",valor,"va con el folllowpos",followPosition[conti])
+        if(valor not in diccionarioFollow):
+            #print("-------------Creando posicion",valor,"va con el folllowpos",followPosition[conti])
+            diccionarioFollow[valor] = followPosition[conti]
+        else:
+            if(followPosition[conti] not in diccionarioFollow[valor]):
+                #print("--------------Sumando posicion",valor,"va con el folllowpos",followPosition[conti][0])
+                diccionarioFollow[valor].append(followPosition[conti][0])
+    conti +=1
+
+#print(diccionarioFollow)
+
+for k,v in diccionarioFollow.items():
+   diccionarioFollow[k] = my_function(v)
+
+diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
+
 # ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
 respuesta = []
 for i in followvalores:
@@ -1097,35 +1127,43 @@ for i in followvalores:
         respuesta.append([j])
 
 #PRINTS NECESARIOS PARA DEBUGEAR
+#print("POSICIONES A LLENAR FOLLOW POS",respuesta)
 #for i in respuesta:
-#    print("LA RESPUESTA",i)
+#    print("POSICIONES A LLENAR FOLLOW POS",i)
 
 #LLENADO DE VALORES DE FOLLOW POS
 for i in range(len(followvalores)):
     for j in followvalores[i]:
         for asd in followPosition[i]:
             respuesta[j-1].append(asd)
+
 for i in respuesta:
     i.pop(0)
+
 cont = 0
 for i in (respuesta):
     if(len(i)==0):
         cont+=1
     if (cont>1 and len(i)==0):
         respuesta.remove(i)
+
 rest = []
 for elem in respuesta: 
     a = list(set(elem))
     rest.append(a)
+#print("LA REST",rest)
+
 respuesta = rest
 for i in respuesta:
     if(len(i) < 1):
         ##print("LA",i)
         respuesta.remove(i)
 
+
 #PRINTS NECESARIOS PARA DEBUGEAR
+#print("Llenar con",respuesta)
 #for i in respuesta:
-#    print("LA RESPUESTA2",i)
+#    print("LLENAR CON",i)
 
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
@@ -1142,7 +1180,13 @@ for i in positions:
     if(i[0].get_padreID() == ""):
         firstposRoot = i[1]
 
-
+#print("-"*100)
+#print(diccionarioFollow)    
+#print(respuesta)   
+#print(firstposRoot) 
+#print(simbolos)
+#print(importantes)
+#print("-"*100)
 
 # METODO PARA CREAR LOS ESTADOS DEL AUTOMATA FINAL 
 def Directo(firstposRoot, simbolos, importantes):
@@ -1166,8 +1210,11 @@ def Directo(firstposRoot, simbolos, importantes):
 
 
             for h in numeros:
-                ##print("el index",h)
-                U += respuesta[h-1]
+                #print("NUMEROS",numeros)
+                for k,v in diccionarioFollow.items():
+                    if(h == k):
+                        #print("********************El follow pos de",k,h,"es",v)
+                        U += v                
             #print("U", U)
             test = []
             for letra in U:
@@ -1201,16 +1248,28 @@ transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 #    print("LA DESTASTE",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-#for i in dEstates:
+#for i in transicionesNuevas:
 #    print("LA TRANS",i)
+
+#PRINTS NECESARIOS PARA DEBUGEAR
+#for i in aceptacion:
+#    print("LA Acept",i)
+
+#print("LA RESPUESTA3",respuesta)
+#for i in respuesta:
+#    print("LA RESPUESTA3",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
 for i in dEstates:
     for j in i:
-        if(j == aceptacion[0]):
-            llave.append(i)
+        for acpt in aceptacion:
+            if(j == acpt):
+                llave.append(i)
+ #PRINTS NECESARIOS PARA DEBUGEAR
+#for i in llave:
+#    print("LAs que tiene acpet",i)   
 
 # CREACION DE DICCIONARO PARA ASIGNACION DE NUEVOS VALORES PARA LOS ESTADOS DE AUTOAMATA 
 nuevoDic = {}

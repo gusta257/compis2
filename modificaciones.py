@@ -1,4 +1,3 @@
-
 import arbol
 from graphviz import Digraph
 import sys

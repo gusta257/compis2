@@ -364,7 +364,7 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []
@@ -372,13 +372,13 @@ followPosition = []
 followTotal = []
 #print("*"*100)
 
-
+#print("LAS POSITIONS",positions)
 
 #ASIGNACION DEL FOLLOW POS
 for i in positions:
     if(i[0].get_valor() == "."):
-        ##print(i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
-        ##print(i[0].get_valor(), i[0].get_hijos()[1].get_valor(),i[1],i[2])
+        #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
+        #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[1].get_valor(),i[1],i[2])
         hijo1 =  i[0].get_hijos()[0]
         hijo2 =  i[0].get_hijos()[1]
         for posicion in positions:
@@ -396,7 +396,7 @@ for i in positions:
 
 
     elif(i[0].get_valor() == "*"):
-        #print(i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
+        #print("PARA EL ASTERISCO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
         #print("PARA LA POS XD", i[2],"EL FOLLOW POS XD", i[1])
         followvalores.append(i[2])
         followPosition.append(i[1])
@@ -405,7 +405,35 @@ for i in positions:
 
 
 
-print("LOS followvalores", followvalores)
+
+print("*"*100)
+print("Estas posiciones se les asigna ", followvalores)
+print("Este valor de followpos", followPosition)
+print("*"*100)
+def my_function(x):
+      return list(dict.fromkeys(x))
+diccionarioFollow = {}
+conti = 0
+for i in followvalores:
+    
+    for valor in i:
+        #print("La posicion",valor,"va con el folllowpos",followPosition[conti])
+        if(valor not in diccionarioFollow):
+            #print("-------------Creando posicion",valor,"va con el folllowpos",followPosition[conti])
+            diccionarioFollow[valor] = followPosition[conti]
+        else:
+            if(followPosition[conti] not in diccionarioFollow[valor]):
+                #print("--------------Sumando posicion",valor,"va con el folllowpos",followPosition[conti][0])
+                diccionarioFollow[valor].append(followPosition[conti][0])
+    conti +=1
+
+print(diccionarioFollow)
+
+for k,v in diccionarioFollow.items():
+   diccionarioFollow[k] = my_function(v)
+
+diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
+
 # ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
 respuesta = []
 for i in followvalores:
@@ -413,9 +441,9 @@ for i in followvalores:
         respuesta.append([j])
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("POSICIONES A LLENAR FOLLOW POS",respuesta)
-for i in respuesta:
-    print("POSICIONES A LLENAR FOLLOW POS",i)
+#print("POSICIONES A LLENAR FOLLOW POS",respuesta)
+#for i in respuesta:
+#    print("POSICIONES A LLENAR FOLLOW POS",i)
 
 #LLENADO DE VALORES DE FOLLOW POS
 for i in range(len(followvalores)):
@@ -437,6 +465,7 @@ rest = []
 for elem in respuesta: 
     a = list(set(elem))
     rest.append(a)
+print("LA REST",rest)
 
 respuesta = rest
 for i in respuesta:
@@ -444,10 +473,11 @@ for i in respuesta:
         ##print("LA",i)
         respuesta.remove(i)
 
+
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("LA RESPUESTA2",respuesta)
-for i in respuesta:
-    print("LA RESPUESTA2",i)
+#print("Llenar con",respuesta)
+#for i in respuesta:
+#    print("LLENAR CON",i)
 
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
@@ -464,7 +494,13 @@ for i in positions:
     if(i[0].get_padreID() == ""):
         firstposRoot = i[1]
 
-
+print("-"*100)
+print(diccionarioFollow)    
+print(respuesta)   
+print(firstposRoot) 
+print(simbolos)
+print(importantes)
+print("-"*100)
 
 # METODO PARA CREAR LOS ESTADOS DEL AUTOMATA FINAL 
 def Directo(firstposRoot, simbolos, importantes):
@@ -488,9 +524,13 @@ def Directo(firstposRoot, simbolos, importantes):
 
 
             for h in numeros:
-                ##print("el index",h)
+                print("NUMEROS",numeros)
+                print("el index", h)
+                print("el index-1", h-1)
+                print("QUE ES RESPUESTA",respuesta)
+                print("QUE ES RESPUESTA h-1",respuesta[h-1])
                 U += respuesta[h-1]
-            #print("U", U)
+            print("U", U)
             test = []
             for letra in U:
                 if letra not in test:
@@ -508,11 +548,11 @@ def Directo(firstposRoot, simbolos, importantes):
     return transicionesNuevas, dEstates
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("firstposRoot",firstposRoot)
-print("simbolos",simbolos)
-print("importantes",importantes)
-for i in importantes:
-    print("importantes",i[0].get_valor(),i[0].get_id(),i[0].get_iDImportante())
+#print("firstposRoot",firstposRoot)
+#print("simbolos",simbolos)
+#print("importantes",importantes)
+#for i in importantes:
+#    print("importantes",i[0].get_valor(),i[0].get_id(),i[0].get_iDImportante())
 
 
 #OBTENCION DE AUTOMATA
@@ -523,12 +563,16 @@ for i in dEstates:
     print("LA DESTASTE",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-for i in dEstates:
+for i in transicionesNuevas:
     print("LA TRANS",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-for i in aceptacion:
-    print("LA Acept",i)
+#for i in aceptacion:
+#    print("LA Acept",i)
+
+#print("LA RESPUESTA3",respuesta)
+#for i in respuesta:
+#    print("LA RESPUESTA3",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
