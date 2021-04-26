@@ -1,3 +1,4 @@
+
 import arbol
 from graphviz import Digraph
 import sys
@@ -131,7 +132,7 @@ ops = []
 i = 0 
 nodos = []
 # AGREGANDO AL REGEX EL # FINAL Y LAS CONVERSIONES NECESARIA
-rAFD = rAFD
+rAFD = "("+rAFD+")#"
 rAFD = arreglar1(rAFD)
 rAFD = arreglar2(rAFD) 
 r = rAFD
@@ -364,15 +365,13 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []
 followPosition = []
 followTotal = []
 #print("*"*100)
-
-
 
 #ASIGNACION DEL FOLLOW POS
 for i in positions:
@@ -405,7 +404,7 @@ for i in positions:
 
 
 
-print("LOS followvalores", followvalores)
+
 # ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
 respuesta = []
 for i in followvalores:
@@ -413,31 +412,26 @@ for i in followvalores:
         respuesta.append([j])
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("POSICIONES A LLENAR FOLLOW POS",respuesta)
-for i in respuesta:
-    print("POSICIONES A LLENAR FOLLOW POS",i)
+#for i in respuesta:
+#    print("LA RESPUESTA",i)
 
 #LLENADO DE VALORES DE FOLLOW POS
 for i in range(len(followvalores)):
     for j in followvalores[i]:
         for asd in followPosition[i]:
             respuesta[j-1].append(asd)
-
 for i in respuesta:
     i.pop(0)
-
 cont = 0
 for i in (respuesta):
     if(len(i)==0):
         cont+=1
     if (cont>1 and len(i)==0):
         respuesta.remove(i)
-
 rest = []
 for elem in respuesta: 
     a = list(set(elem))
     rest.append(a)
-
 respuesta = rest
 for i in respuesta:
     if(len(i) < 1):
@@ -445,9 +439,8 @@ for i in respuesta:
         respuesta.remove(i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("LA RESPUESTA2",respuesta)
-for i in respuesta:
-    print("LA RESPUESTA2",i)
+#for i in respuesta:
+#    print("LA RESPUESTA2",i)
 
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
@@ -508,39 +501,31 @@ def Directo(firstposRoot, simbolos, importantes):
     return transicionesNuevas, dEstates
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-print("firstposRoot",firstposRoot)
-print("simbolos",simbolos)
-print("importantes",importantes)
-for i in importantes:
-    print("importantes",i[0].get_valor(),i[0].get_id(),i[0].get_iDImportante())
+#print("firstposRoot",firstposRoot)
+#print("simbolos",simbolos)
+#print("importantes",importantes)
+#for i in importantes:
+#    print("importantes",i[0].get_valor(),i[0].get_id(),i[0].get_iDImportante())
 
 
 #OBTENCION DE AUTOMATA
 transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-for i in dEstates:
-    print("LA DESTASTE",i)
+#for i in dEstates:
+#    print("LA DESTASTE",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-for i in dEstates:
-    print("LA TRANS",i)
-
-#PRINTS NECESARIOS PARA DEBUGEAR
-for i in aceptacion:
-    print("LA Acept",i)
+#for i in dEstates:
+#    print("LA TRANS",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
 for i in dEstates:
     for j in i:
-        for acpt in aceptacion:
-            if(j == acpt):
-                llave.append(i)
- #PRINTS NECESARIOS PARA DEBUGEAR
-for i in llave:
-    print("LAs que tiene acpet",i)   
+        if(j == aceptacion[0]):
+            llave.append(i)
 
 # CREACION DE DICCIONARO PARA ASIGNACION DE NUEVOS VALORES PARA LOS ESTADOS DE AUTOAMATA 
 nuevoDic = {}
