@@ -65,14 +65,14 @@ def checkCharacters(listaCheck):
             if (afterIgual.find("+") != -1 or afterIgual.find("-") != -1):
                 contPuntos = 0
                 #print("EL CHARACTER TIENE DENTRO UN SIMBOLO DE MAS O MENOS",i)
-                print("."*100)
+                #print("."*100)
                 condicion = re.findall(r'\'(.*?)\'', i)
-                print(len(condicion))
-                print(condicion)
-                print("."*100)
+                #print(len(condicion))
+                #print(condicion)
+                #print("."*100)
                 
                 x = re.split("\+|\-",afterIgual)
-                print("Separadores de mas y menos",x)
+                #print("Separadores de mas y menos",x)
                 for xs in x:
                     if(xs.find("\"") != -1):
                         #print("ENTRO A IF 1")
@@ -84,11 +84,13 @@ def checkCharacters(listaCheck):
                     elif(xs.startswith("'")):
                         #print("HAY UN A COMILLA SIMPLE",i)
                         arrayOpCH.append(xs)
+                    elif(xs.find("ANY") != -1):
+                        pass
                     else:
                         #print("ENTRO A ELSE")
                         arrayOpIdent.append(xs)
                 #print("Array con strings",arrayOpStr)
-                print("Array con CHARS",arrayOpCHR)
+               # print("Array con CHARS",arrayOpCHR)
                 #arrayOpIdent = removePunto(arrayOpIdent)
                 #print("Array con idents",arrayOpIdent)
 
@@ -97,7 +99,7 @@ def checkCharacters(listaCheck):
                     if(charN.endswith(".")):
                         contPuntos +=1
                     charN = charN.replace(".", "")
-                    print("EL CHAR N ES:", charN)
+                    print("EL CHAR N ES:", charN, "en",afterIgual)
                     if(charN == "''"):
                         print("ENTRAMOS")
                         afterIgual = afterIgual.replace(charN,"\' \'")
@@ -106,8 +108,8 @@ def checkCharacters(listaCheck):
                             pass
                         else:
                             print("CHAR INVALIDO",i)
-                            todoB = False
-                            break
+                            #todoB = False
+                            #break
 
                 for chari in arrayOpCHR:
                     if(chari.endswith(".")):
@@ -124,7 +126,7 @@ def checkCharacters(listaCheck):
                         #print("QUE ES AFERCHR",aferCHR)
                         #print("QUE ES CHARI", chari)
                         pass
-                        afterIgual = afterIgual.replace(chari,chr(int(aferCHR)))
+                        #afterIgual = afterIgual.replace(chari,chr(int(aferCHR)))
                     else:
                         print("Dentro del CHAR no hay un numero valido:",i)
                         todoB = False
@@ -142,7 +144,7 @@ def checkCharacters(listaCheck):
                      #   print("No problem ident")
                         pass
                     else:
-                        print("No hay ident que haga match en", i,"ident:", ide)
+                        print("No hay ident que haga match en array", i,"ident:", ide)
                         todoB = False
                         break
                 for stri in arrayOpStr:
@@ -168,8 +170,8 @@ def checkCharacters(listaCheck):
                 #print(contPuntos)
                 if(contPuntos == 0 or contPuntos>1):
                     print("Falta un punto o hay uno extra:",i)
-                    todoB = False
-                    break
+                    #todoB = False
+                    #break
                 else:
                     pass
             else:
@@ -212,13 +214,13 @@ def checkCharacters(listaCheck):
                         todoB = False
                         break
                     #print(aferCHR)
-                    afterIgual = chr(int(aferCHR))
+                    #afterIgual = chr(int(aferCHR))
                 elif(afterIgual.find("..")!=-1):
                     #print("ES UN RANGO CHAR CON COMILLA", afterIgual)
                     if(afterIgual.endswith(".")):
                         pass
                     else:
-                        print("LE FALTA UN PUNTO ")
+                        print("LE FALTA UN PUNTO ", afterIgual)
                         todoB = False
                         break
                     afterIgual = afterIgual.replace("\'", "")
@@ -233,10 +235,10 @@ def checkCharacters(listaCheck):
                     #print(charFinal)
                     if(len(charIincial) == 1 and len(charFinal) == 1):
                         
-                        for c in char_range(charIincial, charFinal):
-                            superSrtring +=  c
+                        #for c in char_range(charIincial, charFinal):
+                        #    superSrtring +=  c
                         
-                        afterIgual = superSrtring
+                        #afterIgual = superSrtring
                         pass
                     else:
                         print("Entrada no valida")
@@ -256,7 +258,7 @@ def checkCharacters(listaCheck):
                     if(afterIgual.endswith(".")):
                         pass
                     else:
-                        print("LE FALTA UN PUNTO ")
+                        print("LE FALTA UN PUNTO ", afterIgual)
                         todoB = False
                         break
                     #print("ES UN  CHAR CON COMILLA", afterIgual)
@@ -271,7 +273,13 @@ def checkCharacters(listaCheck):
                         print("Entrada no valida")
                         todoB = False
                         break
-
+                elif(afterIgual.find("ANY") != -1):
+                    if(afterIgual.endswith(".")):
+                        pass    
+                    else:
+                        print("LE FALTA UN PUNTO ")
+                        todoB = False
+                        break
                 else:
                     print("EL CHARACTER ES IDENT",afterIgual)
                     afterIgual = afterIgual.replace(".", "")
@@ -294,9 +302,11 @@ def checkCharacters(listaCheck):
             #print("IDENT", beforeIgual)
             #print("El AFTER",afterIgual)
             nuevoArray.append(beforeIgual)
+            if(afterIgual.endswith(".")):
+                afterIgual = afterIgual[:-1]
             nuevoArray.append(afterIgual)
-            afterIgual = afterIgual.replace(".", '')
-            afterIgual = afterIgual.replace("\"", '')
+            #afterIgual = afterIgual.replace(".", '')
+            #afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
     return todoB, idents,nuevoArray
 def checkKeyWords(listaCheck):
@@ -496,66 +506,189 @@ for line in file:
         pass
 
 
-
+# TRANSFORMACIONES NECESARIAS DE LAS KEYWORDS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
 keywords = eliminarEspacio(keywords)
+# TRANSFORMACIONES NECESARIAS DE LA KEYWORD PARA QUITAR LOS ESPACIOS EN BLANCO ENTRE CADA POSICION DEL ARRAY
 keywords = juntar(keywords)
+# TRANSFORMACIONES NECESARIAS DE LAS KEYWORDS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
 keywords = removeExtra(keywords)
+
+
+# TRANSFORMACIONES NECESARIAS DE LOS CHARACTERS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
 characters = eliminarEspacio(characters)
+# TRANSFORMACIONES NECESARIAS DE LOS CHARACTERS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
 characters = removeExtra(characters)
+
+# TRANSFORMACIONES NECESARIAS DE LOS TOKENS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
 tokens = eliminarEspacio(tokens)
+# TRANSFORMACIONES NECESARIAS DE LOS TOKENS PARA QUITAR CUALQUIER ESPACIO VACIO COMO POSICION EXTRA
+tokens = removeExtra(tokens)
+
 print(keywords)
 print(characters)
-tokens = removeExtra(tokens)
 print(tokens)
-
 print("*"*100)
 '''
-EL METODO PARA REVISAR KEYWORDS
+---------------------------------------- EL METODO PARA REVISAR KEYWORDS
 '''
 validoK, kewordArray, nuevasKeywords = checkKeyWords(keywords)
 if(validoK):
-    print("Todo bien Jose Luis keywords")
-    #print(keywords)
+    print("Keywords sin problemas")
+
 else:
-    print("Error")
-#print("*"*100)
+    print("Error con las Keywords")
 '''
-EL METODO PARA REVISAR CHARACTERS
+---------------------------------------- EL METODO PARA REVISAR CHARACTERS
 '''
 identsCharacter= []
 validoC, identsCharacter,nuevosChars = checkCharacters(characters)
 if(validoC):
-    print("Todo bien Jose Luis characters")
-    #print(characters)
-
+    print("Characters sin problemas")
 else:
-    print("Error")
-#print("*"*100)
+    print("Error con los Characters")
 '''
-EL METODO PARA REVISAR TOKENS
+---------------------------------------- EL METODO PARA REVISAR TOKENS
 '''
 validoT, nuevoTokens = checkTokens(tokens)
 if(validoT):
-    print("Todo bien Jose Luis tokens")
-    #print(tokens)
-
+    print("Tokens sin problemas")
 else:
-    print("Error")
+    print("Error con los Tokens")
+print("*"*100)
 
 
 
 
-llaves = []
-nuevosChars = removerPuntoChar(nuevosChars)
+#nuevosChars = removerPuntoChar(nuevosChars)
+#
+ 
+def sustituirComillas(dicty):
+    for k,v in dicty.items():
+        temp = ''
+        for char in v:
+            if(char == "\""):
+                temp+=chr(1000)
+            else:
+                temp+=char
+        dicty[k] = temp
+    return dicty
+def cambioCHR(dicty):
+    for k,v in dicty.items():
+        superSrtring = ""
+        temp =""
+        if v.find("..") != -1:
+            if(v.find("CHR(") != -1):
+                #print("--------------------Entro a chr")
+                posCHR = v.find("CHR(")
+                finCHR1 = v.find(")")
+                aferCHR1 = v[posCHR+4:finCHR1]
+                #print("posCHR",posCHR)
+                #print("finCHR1",finCHR1)
+                #print("aferCHR1*************",aferCHR1)
+
+                posPunto = v.find("..")
+                #print("POSPunto----------", posPunto,v)
+                #charIincial = v[:posPunto]
+                charFinal = v[posPunto+6:-1]
+                
+                #print("charIincial:",charIincial)
+                #print("charFinal********:",charFinal)
+
+                for c in char_range(chr(int(aferCHR1)), chr(int(charFinal))):
+                    superSrtring +=  c
+                superSrtring = chr(1000)+superSrtring+chr(1000)
+                dicty[k] = superSrtring 
+
+            else:
+                posPunto = v.find("..")
+                #print("POSPunto", posPunto,v)
+                charIincial = v[:posPunto]
+                charFinal = v[posPunto+2:]
+                #print("charIincial:",charIincial)
+                #print("charFinal:",charFinal)
+                for c in char_range(charIincial, charFinal):
+                    superSrtring +=  c
+                superSrtring = chr(1000)+superSrtring+chr(1000)
+                #print("el superSrtring",superSrtring)
+                dicty[k] = superSrtring 
+        else:
+            for i in v:
+                if(i == "\""):
+                    temp+=chr(1000)
+                else:
+                    temp+=i
+            superSrtring = temp
+
+            if(v.find("CHR(") != -1):
+                temp = superSrtring
+                
+                while(temp.find("CHR(")!=-1):
+                    #print("--------------temp Inicio---",temp)
+                    numeroCHR = temp.find("CHR(")
+                    #print("------INICIO CHR---",numeroCHR)
+                    finCHR = temp.find(")",numeroCHR)
+                    #print("------FIN CHR---",finCHR)
+                    aferCHR = temp[numeroCHR+4:finCHR]
+                    #print("---------EL VALOR A CAMBIAR---",aferCHR)
+                    #print("*********",aferCHR)
+                    temp  = temp[:numeroCHR]+ chr(1000)+chr(int(aferCHR))+chr(1000)+temp[finCHR+1:]
+                    #print("--------------temp---",temp)
+
+                superSrtring = temp
+                dicty[k] = superSrtring 
+    return dicty
+def cambioAny(dicty):
+    
+    for k,v in dicty.items():
+        superSrtring =""
+        if(v.find("ANY") !=-1):
+            posAny = v.find("ANY")
+            for c in char_range(chr(0), chr(255)):
+                superSrtring +=  c
+            
+            superSrtring = chr(1000)+superSrtring+chr(1000)
+            superSrtring = v.replace("ANY",superSrtring)
+
+            dicty[k] = superSrtring
+    return dicty
+def sustitucionVariables(dicty):
+    llavesT = []
+
+    for key in sorted(dicty,key=len, reverse=True):
+        llavesT.append(key)
+
+    #print("------------LLAVES",llaves)
+
+    for key in sorted(dicty,key=len, reverse=True):
+        for i in llavesT:
+            if(i in dicty[key]):
+                dicty[key] = dicty[key].replace(i ,dicty[i])
+    return dicty
 
 nuevoDic = Convert(nuevosChars)
+print("DICCIONARIO SIN PUNTOS",nuevoDic   )
+print()
+nuevoDic = sustituirComillas(nuevoDic)
+print("DICCIONARIO SIN COMILLAS",nuevoDic   )
+nuevoDic = cambioCHR(nuevoDic)
+print()
+print("DICCIONARIO SIN ..",nuevoDic   )
+nuevoDic = cambioAny(nuevoDic)
+print()
+print("DICCIONARIO SIN ANY.",nuevoDic   )
+nuevoDic = sustitucionVariables(nuevoDic)
+print()
+print("DICCIONARIO SUSTITUIDO?", nuevoDic)
+
 nuevoDicK = Convert(nuevasKeywords)
 nuevodicT = Convert(nuevoTokens)
+
 '''
 print("-"*100)
 print("CHARS PASADO A DIC")
 print(nuevoDic)
 print("-"*100)
+
 print("KEYS PASADO A DIC")
 print(nuevoDicK)
 print("-"*100)
@@ -565,13 +698,7 @@ print("-"*100)
 '''
 prueba = ""
 
-for key in sorted(nuevoDic,key=len, reverse=True):
-    llaves.append(key)
 
-for key in sorted(nuevoDic,key=len, reverse=True):
-    for i in llaves:
-        if(i in nuevoDic[key]):
-            nuevoDic[key] = nuevoDic[key].replace(i ,nuevoDic[i])
 
 #print("*"*100)
 #print("EL REEMPLAZO DE VARIABLES")
@@ -637,7 +764,7 @@ for key, value in nuevoDic.items():
 #print("*"*100)
 
 
-
+#REEMPLAZO DE LOS PARENTESIS Y DE LOS CORCHETES POR SIMBOLOS DE AUTOMATA
 for key, value in nuevodicT.items():
     for i in value:
         if(i == "{"):
@@ -645,9 +772,15 @@ for key, value in nuevodicT.items():
         elif(i == "}"):
             nuevodicT[key] = nuevodicT[key].replace(i, ")*")
 
+#print("-----------------------------",nuevoDic)
+#print("-----------------------------",nuevodicT)
+
+#SUSTITUYENDO EN TOKENS EN PARENTESIS
 for key, value in nuevodicT.items():
-    for i in nuevoDic:
+    for i in reversed(nuevoDic):
         nuevodicT[key] = nuevodicT[key].replace(i, "("+nuevoDic[i]+")")
+
+#print("----------------SUSTITUCION------------",nuevodicT)
 
 dictExcept = {}
 for k,v in nuevodicT.items():
