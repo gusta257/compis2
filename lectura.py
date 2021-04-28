@@ -99,9 +99,9 @@ def checkCharacters(listaCheck):
                     if(charN.endswith(".")):
                         contPuntos +=1
                     charN = charN.replace(".", "")
-                    print("EL CHAR N ES:", charN, "en",afterIgual)
+                    #print("EL CHAR N ES:", charN, "en",afterIgual)
                     if(charN == "''"):
-                        print("ENTRAMOS")
+                        #print("ENTRAMOS")
                         afterIgual = afterIgual.replace(charN,"\' \'")
                     else:
                         if(len(charN)==3):
@@ -558,10 +558,6 @@ print("*"*100)
 
 
 
-
-#nuevosChars = removerPuntoChar(nuevosChars)
-#
- 
 def sustituirComillas(dicty):
     for k,v in dicty.items():
         temp = ''
@@ -664,156 +660,163 @@ def sustitucionVariables(dicty):
             if(i in dicty[key]):
                 dicty[key] = dicty[key].replace(i ,dicty[i])
     return dicty
+def operaciones(dicty):
+    for k,v in dicty.items():
+        string = False
+        posSignos = []
+        primera = False
+        calculo = False
+        tmep = ""
+        segunda =""
+        operador=""
+        cont=0
+        #print("*-*-*-*-*-*-",len(v))
+        while cont < len(v):
+            if (not(primera)):
+                if (v[cont] == chr(1000)):
+                    string = not(string)
+                if string:
+                    #print(tmep)
+                    tmep+=v[cont]
+                else:
+                    primera = True
+                    respuesta = tmep[1:]
+            else:
+                if v[cont] == chr(1000):
+                    string = not(string)
+                if(not(string) and v[cont] == "+") or (not(string) and v[cont] =="-"):
+                    operador = v[cont]
+                else:
+                    if string:
+                        segunda += v[cont]
+                    else:
+                        if operador == "+" and not(string):
+                            segunda=segunda[1:]
+                            respuesta = respuesta+segunda
+                            calculo = True
+                        elif(operador =="-" and not(string)):
+                            segunda = segunda[1:]
+                            respuesta = respuesta.translate({ord(i): None for i in segunda})
+                            calculo = True
+                        if calculo:
+                            op = ""
+                            segunda = ""
+            cont+=1
+        dicty[k] = respuesta
+    return dicty
+def pipesChar(dicty):
+    for key, value in dicty.items():
+        megaString = ""
+        pos = -1
+        for i in value:
+            pos += 1
+            if pos != len(value) - 1:
+                megaString += i+"|"
+            else:
+                megaString += i
+        dicty[key] = megaString
+    return dicty
+def modoAutomata(dictyT):
+    for key, value in dictyT.items():
+        for i in value:
+            if(i == "{"):
+                dictyT[key] = dictyT[key].replace(i, "(")
+            elif(i == "}"):
+                dictyT[key] = dictyT[key].replace(i, ")*")
+    return dictyT
+def modoAuto2(dictyT,dicty):
+    for key, value in dictyT.items():
+        for i in reversed(dicty):
+            dictyT[key] = dictyT[key].replace(i, "("+dicty[i]+")")
+    return dictyT
+def exceptiones(dictyE, dictyT, dictyK):
+    
+    for k,v in dictyT.items():
+        for k1,v1 in dictyK.items():
+            if("EXCEPT KEYWORDS" in v):
+                dictyE[k] = dictyK
+            else:
+                dictyE[k] = {}
+    return dictyE
+def removeExcept(dictyT):
+    for k,v in dictyT.items():
+        temp = {}
+        tempS = ""
+        ex = v.find("EXCEPT")
+        #print("EX",ex,"PARA",v)
+        if(ex != -1):
+            temp[k] = v[:ex-1].lstrip()
+        else:
+            temp[k] = v[:-1].lstrip()
+        dictyT[k] = temp[k]
+    return dictyT
 
 nuevoDic = Convert(nuevosChars)
-print("DICCIONARIO SIN PUNTOS",nuevoDic   )
-print()
+#print("DICCIONARIO SIN PUNTOS",nuevoDic   )
+#print()
 nuevoDic = sustituirComillas(nuevoDic)
-print("DICCIONARIO SIN COMILLAS",nuevoDic   )
+#print("DICCIONARIO SIN COMILLAS",nuevoDic   )
 nuevoDic = cambioCHR(nuevoDic)
-print()
-print("DICCIONARIO SIN ..",nuevoDic   )
+#print()
+#print("DICCIONARIO SIN ..",nuevoDic   )
 nuevoDic = cambioAny(nuevoDic)
-print()
-print("DICCIONARIO SIN ANY.",nuevoDic   )
+#print()
+#print("DICCIONARIO SIN ANY.",nuevoDic   )
 nuevoDic = sustitucionVariables(nuevoDic)
+#print()
+#print("DICCIONARIO SUSTITUIDO", nuevoDic)
+#print()
+nuevoDic = operaciones(nuevoDic)
+print("DICCIONARIO OPERADO", nuevoDic)
 print()
-print("DICCIONARIO SUSTITUIDO?", nuevoDic)
+
 
 nuevoDicK = Convert(nuevasKeywords)
 nuevodicT = Convert(nuevoTokens)
-
-'''
-print("-"*100)
-print("CHARS PASADO A DIC")
-print(nuevoDic)
-print("-"*100)
-
-print("KEYS PASADO A DIC")
-print(nuevoDicK)
-print("-"*100)
-print("TOKENS PASADO A DIC")
-print(nuevodicT)
-print("-"*100)
-'''
-prueba = ""
-
-
-
-#print("*"*100)
-#print("EL REEMPLAZO DE VARIABLES")
-#print(nuevoDic)
-
-for key, values in nuevoDic.items():
-    
-    while nuevoDic[key].find("-") > -1:
-        #print("EL DIC DE PORQUEERIA",nuevoDic[key])
-    #if(values.find("-")>-1):
-        #print(key)
-        temp_index =  nuevoDic[key].find("-")
-        #print("El temp_index del inicio del ciclo",temp_index)
-        if( nuevoDic[key].find("+",temp_index+1) > -1):
-            next_index =  nuevoDic[key].find("+",temp_index+1)
-        elif( nuevoDic[key].find("-",temp_index+1) > -1):
-            next_index =  nuevoDic[key].find("-",temp_index+1)
-        else:
-            next_index = -1
-        #print("next_index",next_index)
-        first_element =  nuevoDic[key][:temp_index]
-        #print("first element",first_element)
-        if next_index > -1:
-            second_element =  nuevoDic[key][temp_index+1:next_index]
-            #print("second_element",second_element)
-            cont_word =  nuevoDic[key][next_index:]
-            new_word = first_element.translate({ord(i): None for i in second_element})
-            #print("la cont_word",cont_word)
-            #print("la new_word",new_word)
-            nuevoDic[key] = new_word+cont_word
-            #print("el nuevo value",nuevoDic[key])
-        else:
-            second_element =  nuevoDic[key][temp_index+1:]
-            #print("el second_element",second_element)
-            new_word = first_element.translate({ord(i): None for i in second_element})
-            nuevoDic[key] = new_word
-        
-    if("+" in  values):
-        #print("HAY CAMBIO DE SUMA", key, values)
-        nuevoDic[key] = nuevoDic[key].replace("+", "")
-    
-    
-        
-#print("*"*100)
-#print("REMPLAZO DE SUAS Y RESTAS")
-#print(nuevoDic)
-
-
-for key, value in nuevoDic.items():
-    megaString = ""
-    pos = -1
-    for i in value:
-        pos += 1
-        if pos != len(value) - 1:
-            megaString += i+"|"
-        else:
-            megaString += i
-    nuevoDic[key] = megaString
-
-#print("*"*100)
+print("NUEVO DICT 1",nuevodicT)
+print()
 #print("REMPLAZO DE PIPES")
-#print(nuevoDic)
-#print("*"*100)
-
+nuevoDic = pipesChar(nuevoDic)
 
 #REEMPLAZO DE LOS PARENTESIS Y DE LOS CORCHETES POR SIMBOLOS DE AUTOMATA
-for key, value in nuevodicT.items():
-    for i in value:
-        if(i == "{"):
-            nuevodicT[key] = nuevodicT[key].replace(i, "(")
-        elif(i == "}"):
-            nuevodicT[key] = nuevodicT[key].replace(i, ")*")
-
-#print("-----------------------------",nuevoDic)
-#print("-----------------------------",nuevodicT)
-
+nuevodicT = modoAutomata(nuevodicT)
+print("NUEVO DICT modoAutomata",nuevodicT)
+print()
 #SUSTITUYENDO EN TOKENS EN PARENTESIS
-for key, value in nuevodicT.items():
-    for i in reversed(nuevoDic):
-        nuevodicT[key] = nuevodicT[key].replace(i, "("+nuevoDic[i]+")")
+nuevodicT = modoAuto2(nuevodicT,nuevoDic)
+print("NUEVO DICT MODOAUTO2",nuevodicT)
+print()
+#CREANDO DICCIONARIO CON LAS EXCEPCIONES
+dictExcept = {}   
+dictExcept = exceptiones(dictExcept, nuevodicT, nuevoDicK)
+#QUITAMOS LOS EXPET DE LOS TOKENS
+nuevodicT = removeExcept(nuevodicT)
 
-#print("----------------SUSTITUCION------------",nuevodicT)
-
-dictExcept = {}
-for k,v in nuevodicT.items():
-    for k1,v1 in nuevoDicK.items():
-        if("EXCEPT KEYWORDS" in v):
-            dictExcept[k] = nuevoDicK
-        else:
-            dictExcept[k] = {}
-
-        
-'''
-cont = 0
-    print(len(value))
-    print("EL VALUE",value)
-    while(0 < len(value)-1):
-        if(value[cont] == "{"):
-            print(nuevodicT[key])
-        cont+=1
-
-'''
 print("*"*100)
 print("FINAL")
 print("*"*100)
 print("TOKENS QUE VAN AL AUTOMATA")
 print(nuevodicT)
+print()
+print()
 print("*"*100)
 print("KEYWORDS PARA REVISAR EN EL EXCEPT")
 print(nuevoDicK)
+print()
 print("*"*100)
 print("EXCEPT")
 print(dictExcept)
 
+superToken = ""
+#print("---------------------------------------",)
+for k,v in nuevodicT.items():
+    if(nuevodicT[k] != nuevodicT[list(nuevodicT)[-1]] ):
+        superToken += "("+v+")#|"
+    else:
+        superToken +=  "("+v+")#"
 
+print("EL SUPER TOKEN")
+print(repr(superToken))
 
 
 multiline_str = """
