@@ -2,9 +2,9 @@ import arbol
 from graphviz import Digraph
 import sys
 
-r = "((a|b)(c|d)*)#|(e|f)(g)*#|h*#"
-token = {'ident ': '((a|b)(c|d)*)', 'number ': '(e|f)(g)*', 'algo': 'h*'}
-excepcion = {'ident ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number ': {}}
+r = "((a|b)(c|d)*)#|(e|f)(g)*#|(h)*#"
+token = {'Token1 ': '((a|b)(a|b)*)', 'Token2 ': '(c|d)', 'Token3 ': '(h)*'}
+excepcion = {'Token1 ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'Token2 ': {}, 'Token3 ': {}}
 
 
 
@@ -110,7 +110,7 @@ def arreglar1(r):
 
 ## INGRESO DE CADENA Y REGEX
 
-r = input("ingrese la expresion regular: ")
+#r = input("ingrese la expresion regular: ")
 w = input("ingrese la cadena a evaluar: ")
 
 # SI LA CADENA ESTA BIEN SIGUE SINO SE ACABA EL PROGRAMA
@@ -566,8 +566,8 @@ def Directo(firstposRoot, simbolos, importantes):
 transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-for i in dEstates:
-    print("LA DESTASTE",i)
+#for i in dEstates:
+#    print("LA DESTASTE",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
 #for i in transicionesNuevas:
@@ -638,7 +638,7 @@ def get_key(my_dict,val):
             return key
  
     return "key doesn't exist"
-#METODO DE SIMULADION DEL AFD DIRECTO
+'''
 def simulacionAFD(ini,trans):
     s = ini
     cont = 0
@@ -659,6 +659,48 @@ def simulacionAFD(ini,trans):
         print("SI PARA EL AFD")
     else:
         print("NO PARA EL AFD")
+'''
+#METODO DE SIMULADION DEL AFD DIRECTO
+def simulacionAFD(ini,trans,w,position):
+    s = ini
+    cont = 0
+    sigue = True
+    check = contadorW = position
+    tokenR = ''
+    estadoAceptacion = ''
+    #print("EL LEN ES ",len(w))
+    while(sigue and contadorW < len(w)):
+        s = (mov(s, w[contadorW],trans))
+        #print("LA S ES",s)
+        #print("LA aceptacionA ES",aceptacionA)
+        #for i in aceptacionA:
+        #print("VERIFICANDO SI ",s[0],"ESTA EN",aceptacionA)
+
+        if(len(s)>0 and str(s[0]) in aceptacionA):
+            #print(s[0],"ESTA EN",estadoAceptacion)
+            #print("ACEPATDO",w[contadorW])
+            #print(get_key(nuevoDic,i))
+            #print("-"*50)
+            #print(nuevoDic)
+            #print(dicAceptado)
+            #print("-"*50)
+            check = contadorW
+            for key,value in dicAceptado.items():
+                for x in get_key(nuevoDic,s[0]):
+                    if(x == value):
+                        estadoAceptacion = key
+        if(len(s) == 0):
+            #print("PARO")
+            sigue = False
+        contadorW+=1
+
+    #print("Postion",position)
+    #print("Check",check)
+    tokenR = w[position:check+1]
+    
+
+    return tokenR, check+1, estadoAceptacion
+   
 
 # GRAFICACION
 fad = Digraph('finite_state_machine', filename='fsmasd.gv')
@@ -674,7 +716,7 @@ for i in transicionesNuevas:
     estadosA.append(i[2])
     fad.attr('node', shape='circle')
     fad.edge(i[0], i[2], label=i[1])
-fad.view()
+#fad.view()
 
 #LIMPIEZA DE ESTADOS DE ACEPTACION
 resT = [] 
@@ -693,7 +735,22 @@ Aceptacion = {aceptacionA}
 Transiciones = {transicionesNuevas}
 '''
 print(archivo)
-simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas)
+position = 0
+while(position < len(w)):
+    tokenR, position, estadoAceptacion = simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas,w,position)
+
+    if(len(estadoAceptacion) == 0):
+        print("TOKEN",repr(tokenR)," NO RECONOCIDO")
+    else:
+        for k,v in excepcion.items():
+            if(k == estadoAceptacion):
+                if(tokenR == v):
+                    print("EL TOKEN",repr(tokenR),"es un KEYWORD")
+            else:
+                print("EL TOKEN",repr(tokenR),"es", estadoAceptacion)
+
+
+
 with open("FILE.txt", "a", encoding="utf-8") as f:
     f.write(archivo)
 f.close()

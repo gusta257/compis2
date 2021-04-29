@@ -590,26 +590,49 @@ def get_key(my_dict,val):
  
     return "key doesn't exist"
 #METODO DE SIMULADION DEL AFD DIRECTO
-def simulacionAFD(ini,trans):
+def simulacionAFD(ini,trans,w,position):
     s = ini
     cont = 0
-    for c in w:
-        s = (mov(s, c,trans))
-        #print(" EL MOVE",s)
-    for i in aceptacionA:
-        if(i in s):
-            print(i,"ESTA EN",s)
-            print(get_key(nuevoDic,i))
-            for key,value in dicAceptado.items():
-                for x in get_key(nuevoDic,i):
-                    if(x == value):
-                        print("EN EL TOKEN:",key,"ESTA",x)
+    sigue = True
+    check = contadorW = position
+    tokenR = ''
+    estadoAceptacion = ''
+    #print("EL LEN ES ",len(w))
+    while(sigue and contadorW < len(w)):
+        s = (mov(s, w[contadorW],trans))
+        #print("LA S ES",s)
+        #print("LA aceptacionA ES",aceptacionA)
+        #for i in aceptacionA:
+        #print("VERIFICANDO SI ",s[0],"ESTA EN",aceptacionA)
 
-            cont+=1
-    if(cont>=1):
-        print("SI PARA EL AFD")
+        if(len(s)>0 and str(s[0]) in aceptacionA):
+            #print(s[0],"ESTA EN",estadoAceptacion)
+            #print("ACEPATDO",w[contadorW])
+            #print(get_key(nuevoDic,i))
+            #print("-"*50)
+            #print(nuevoDic)
+            #print(dicAceptado)
+            #print("-"*50)
+            check = contadorW
+            for key,value in dicAceptado.items():
+                for x in get_key(nuevoDic,s[0]):
+                    if(x == value):
+                        estadoAceptacion = key
+        if(len(s) == 0):
+            #print("PARO")
+            sigue = False
+        contadorW+=1
+
+    print("Postion",position)
+    print("Check",check)
+    tokenR = w[position:check+1]
+    if(len(estadoAceptacion) == 0):
+        print("TOKEN NO RECONOCIDO")
     else:
-        print("NO PARA EL AFD")
+        print("EL TOKEN",tokenR,"es", estadoAceptacion)
+
+    return tokenR, check+1, estadoAceptacion
+   
 
 # GRAFICACION
 fad = Digraph('finite_state_machine', filename='fsmasd.gv')
@@ -625,7 +648,7 @@ for i in transicionesNuevas:
     estadosA.append(i[2])
     fad.attr('node', shape='circle')
     fad.edge(i[0], i[2], label=i[1])
-fad.view()
+#fad.view()
 
 #LIMPIEZA DE ESTADOS DE ACEPTACION
 resT = [] 
@@ -644,7 +667,11 @@ Aceptacion = {aceptacionA}
 Transiciones = {transicionesNuevas}
 '''
 print(archivo)
-simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas)
+position = 0
+while(position < len(w)):
+    tokenR, position, estadoAceptacion = simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas,w,position)
+
+
 with open("FILE.txt", "a", encoding="utf-8") as f:
     f.write(archivo)
 f.close()
