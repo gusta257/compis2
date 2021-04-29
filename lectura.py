@@ -564,6 +564,8 @@ def sustituirComillas(dicty):
         for char in v:
             if(char == "\""):
                 temp+=chr(1000)
+            elif(char == "\'"):
+                temp+=chr(1000)
             else:
                 temp+=char
         dicty[k] = temp
@@ -670,8 +672,11 @@ def operaciones(dicty):
         segunda =""
         operador=""
         cont=0
-        #print("*-*-*-*-*-*-",len(v))
+        #print("*-*-*-*-*-*-",len(v), repr(v))
         while cont < len(v):
+            if len(v) ==1:
+                respuesta = v
+                break
             if (not(primera)):
                 if (v[cont] == chr(1000)):
                     string = not(string)
@@ -680,6 +685,7 @@ def operaciones(dicty):
                     tmep+=v[cont]
                 else:
                     primera = True
+                    #print("*/*/*/*/*/*/*/*/*//",repr(tmep))
                     respuesta = tmep[1:]
             else:
                 if v[cont] == chr(1000):
@@ -723,10 +729,16 @@ def modoAutomata(dictyT):
                 dictyT[key] = dictyT[key].replace(i, "(")
             elif(i == "}"):
                 dictyT[key] = dictyT[key].replace(i, ")*")
+            elif(i == "["):
+                dictyT[key] = dictyT[key].replace(i, "(")
+            elif(i == "]"):
+                dictyT[key] = dictyT[key].replace(i, ")?")
+            
     return dictyT
-def modoAuto2(dictyT,dicty):
+def modoAuto3(dictyT,dicty):
     for key, value in dictyT.items():
         for i in reversed(dicty):
+            #print(repr(("REEMPLAZAR EL",i,"POR","("+dicty[i]+")")))
             dictyT[key] = dictyT[key].replace(i, "("+dicty[i]+")")
     return dictyT
 def exceptiones(dictyE, dictyT, dictyK):
@@ -750,6 +762,27 @@ def removeExcept(dictyT):
             temp[k] = v[:-1].lstrip()
         dictyT[k] = temp[k]
     return dictyT
+def modoAuto2(dictyT):
+    for k,v in dictyT.items():
+        temp = v
+        temporal = ""
+        cont = 0
+        primera = True
+        segunda = False
+        while cont < len(temp):
+            if(temp[cont] == "\"" and primera):
+                temporal += "("
+                primera = False
+                segunda = True
+            elif(temp[cont] == "\"" and segunda):
+                temporal += ")"
+                primera = True
+                segunda = False
+            else:
+                temporal += temp[cont]
+            cont+=1
+        dictyT[k] = temporal
+    return dictyT
 
 nuevoDic = Convert(nuevosChars)
 #print("DICCIONARIO SIN PUNTOS",nuevoDic   )
@@ -767,30 +800,34 @@ nuevoDic = sustitucionVariables(nuevoDic)
 #print("DICCIONARIO SUSTITUIDO", nuevoDic)
 #print()
 nuevoDic = operaciones(nuevoDic)
-print("DICCIONARIO OPERADO", nuevoDic)
-print()
-
-
+#print("DICCIONARIO OPERADO", nuevoDic)
+#print()
 nuevoDicK = Convert(nuevasKeywords)
 nuevodicT = Convert(nuevoTokens)
-print("NUEVO DICT 1",nuevodicT)
-print()
+#print("NUEVO DICT 1",nuevodicT)
+#print()
 #print("REMPLAZO DE PIPES")
 nuevoDic = pipesChar(nuevoDic)
 
 #REEMPLAZO DE LOS PARENTESIS Y DE LOS CORCHETES POR SIMBOLOS DE AUTOMATA
 nuevodicT = modoAutomata(nuevodicT)
-print("NUEVO DICT modoAutomata",nuevodicT)
-print()
+#print("NUEVO DICT modoAutomata",nuevodicT)
+#print()
+nuevodicT = modoAuto2(nuevodicT)
+#print("NUEVO DICT modoAuto2",nuevodicT)
+#print()
 #SUSTITUYENDO EN TOKENS EN PARENTESIS
-nuevodicT = modoAuto2(nuevodicT,nuevoDic)
-print("NUEVO DICT MODOAUTO2",nuevodicT)
-print()
+#print("/////////////////////////////",nuevoDic)
+nuevodicT = modoAuto3(nuevodicT,nuevoDic)
+#print("NUEVO DICT MODOAUTO3",nuevodicT)
+#print()
 #CREANDO DICCIONARIO CON LAS EXCEPCIONES
 dictExcept = {}   
 dictExcept = exceptiones(dictExcept, nuevodicT, nuevoDicK)
 #QUITAMOS LOS EXPET DE LOS TOKENS
 nuevodicT = removeExcept(nuevodicT)
+
+
 
 print("*"*100)
 print("FINAL")
@@ -798,7 +835,7 @@ print("*"*100)
 print("TOKENS QUE VAN AL AUTOMATA")
 print(nuevodicT)
 print()
-print()
+#print()
 print("*"*100)
 print("KEYWORDS PARA REVISAR EN EL EXCEPT")
 print(nuevoDicK)
@@ -818,11 +855,20 @@ for k,v in nuevodicT.items():
 print("EL SUPER TOKEN")
 print(repr(superToken))
 
+comida= "banana"
 
 multiline_str = """
 import arbol
 from graphviz import Digraph
 import sys
+
+
+r = \""""+r'{}'.format(superToken) +"""\"
+token = """+r'{}'.format(nuevodicT)+"""
+excepcion = """+r'{}'.format(dictExcept)+"""
+
+for k,v in token.items():
+    print(k,v)
 
 # METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> |
 def precedence(op):
@@ -926,7 +972,7 @@ def arreglar1(r):
 
 ## INGRESO DE CADENA Y REGEX
 
-r = input("ingrese la expresion regular: ")
+#r = input("ingrese la expresion regular: ")
 w = input("ingrese la cadena a evaluar: ")
 
 # SI LA CADENA ESTA BIEN SIGUE SINO SE ACABA EL PROGRAMA
@@ -1256,51 +1302,6 @@ for k,v in diccionarioFollow.items():
 
 diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
 
-# ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
-respuesta = []
-for i in followvalores:
-    for j in i:
-        respuesta.append([j])
-
-#PRINTS NECESARIOS PARA DEBUGEAR
-#print("POSICIONES A LLENAR FOLLOW POS",respuesta)
-#for i in respuesta:
-#    print("POSICIONES A LLENAR FOLLOW POS",i)
-
-#LLENADO DE VALORES DE FOLLOW POS
-for i in range(len(followvalores)):
-    for j in followvalores[i]:
-        for asd in followPosition[i]:
-            respuesta[j-1].append(asd)
-
-for i in respuesta:
-    i.pop(0)
-
-cont = 0
-for i in (respuesta):
-    if(len(i)==0):
-        cont+=1
-    if (cont>1 and len(i)==0):
-        respuesta.remove(i)
-
-rest = []
-for elem in respuesta: 
-    a = list(set(elem))
-    rest.append(a)
-#print("LA REST",rest)
-
-respuesta = rest
-for i in respuesta:
-    if(len(i) < 1):
-        ##print("LA",i)
-        respuesta.remove(i)
-
-
-#PRINTS NECESARIOS PARA DEBUGEAR
-#print("Llenar con",respuesta)
-#for i in respuesta:
-#    print("LLENAR CON",i)
-
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
 for i in arboles:
@@ -1318,7 +1319,7 @@ for i in positions:
 
 #print("-"*100)
 #print(diccionarioFollow)    
-#print(respuesta)   
+
 #print(firstposRoot) 
 #print(simbolos)
 #print(importantes)
@@ -1391,13 +1392,24 @@ transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 #for i in aceptacion:
 #    print("LA Acept",i)
 
-#print("LA RESPUESTA3",respuesta)
-#for i in respuesta:
-#    print("LA RESPUESTA3",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
+print("NODOS ACEPTACION", aceptacion)
+print("-"*100)
+for k,v in token.items():
+    print(k,v)
+
+dicAceptado = {}
+contadorA = 0
+for k,v in token.items():
+    dicAceptado[k] = aceptacion[contadorA]
+    contadorA +=1
+
+print("DICCIONARIO ACEPTACION",dicAceptado)
+print("-"*100)
+
 for i in dEstates:
     for j in i:
         for acpt in aceptacion:
@@ -1421,15 +1433,37 @@ for item in transicionesNuevas:
     item[0]= str(nuevoDic.get(tuple(item[0])))
     item[2]= str(nuevoDic.get(tuple(item[2])))
 
+'''
+for k, v in nuevoDic.items():
+    print("LA LLAVE",k)
+    print("EL VALOR",v)
+'''
 
+print("ACEPTACIONA",aceptacionA)
+def get_key(my_dict,val):
+    for key, value in my_dict.items():
+        #print("EL VALUE",type(value))
+        #print("EL ENCONTRADO",type(val))
+        if val == str(value):
+            return key
+ 
+    return "key doesn't exist"
 #METODO DE SIMULADION DEL AFD DIRECTO
 def simulacionAFD(ini,trans):
     s = ini
     cont = 0
     for c in w:
         s = (mov(s, c,trans))
+        #print(" EL MOVE",s)
     for i in aceptacionA:
         if(i in s):
+            print(i,"ESTA EN",s)
+            print(get_key(nuevoDic,i))
+            for key,value in dicAceptado.items():
+                for x in get_key(nuevoDic,i):
+                    if(x == value):
+                        print("EN EL TOKEN:",key,"ESTA",x)
+
             cont+=1
     if(cont>=1):
         print("SI PARA EL AFD")

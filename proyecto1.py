@@ -593,6 +593,8 @@ nuevosValores = dEstates.copy()
 for i in nuevosValores:
     nuevoDic[tuple(i)] = contador
     contador +=1
+
+print("QUE ES LLAVE",llave)
 for item in llave:
     aceptacionA.append(str(nuevoDic.get(tuple(item))))
 

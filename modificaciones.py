@@ -2,6 +2,12 @@ import arbol
 from graphviz import Digraph
 import sys
 
+r = "((a|b)(c|d)*)#|(e|f)(g)*#|h*#"
+token = {'ident ': '((a|b)(c|d)*)', 'number ': '(e|f)(g)*', 'algo': 'h*'}
+excepcion = {'ident ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number ': {}}
+
+
+
 # METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> |
 def precedence(op):
     if (op == '*'):
@@ -433,7 +439,7 @@ for k,v in diccionarioFollow.items():
    diccionarioFollow[k] = my_function(v)
 
 diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
-
+'''
 # ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
 respuesta = []
 for i in followvalores:
@@ -472,7 +478,7 @@ for i in respuesta:
     if(len(i) < 1):
         ##print("LA",i)
         respuesta.remove(i)
-
+'''
 
 #PRINTS NECESARIOS PARA DEBUGEAR
 #print("Llenar con",respuesta)
@@ -538,6 +544,7 @@ def Directo(firstposRoot, simbolos, importantes):
             if(U not in dEstates):
                 ##print("Entramos")
                 #print("U EN EL IF XD", U)
+                #print("ESTADOS",U)
                 dEstates.append(U)
             if(len(U)>=1):
                 transicionesNuevas.append([i,j,U])
@@ -555,11 +562,12 @@ def Directo(firstposRoot, simbolos, importantes):
 
 
 #OBTENCION DE AUTOMATA
+#print("firstposRoot",firstposRoot)
 transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
-#for i in dEstates:
-#    print("LA DESTASTE",i)
+for i in dEstates:
+    print("LA DESTASTE",i)
 
 #PRINTS NECESARIOS PARA DEBUGEAR
 #for i in transicionesNuevas:
@@ -576,6 +584,20 @@ transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
+print("NODOS ACEPTACION", aceptacion)
+print("-"*100)
+for k,v in token.items():
+    print(k,v)
+
+dicAceptado = {}
+contadorA = 0
+for k,v in token.items():
+    dicAceptado[k] = aceptacion[contadorA]
+    contadorA +=1
+
+print("DICCIONARIO ACEPTACION",dicAceptado)
+print("-"*100)
+    
 for i in dEstates:
     for j in i:
         for acpt in aceptacion:
@@ -592,6 +614,9 @@ nuevosValores = dEstates.copy()
 for i in nuevosValores:
     nuevoDic[tuple(i)] = contador
     contador +=1
+
+print("Llave",llave)
+
 for item in llave:
     aceptacionA.append(str(nuevoDic.get(tuple(item))))
 
@@ -599,15 +624,36 @@ for item in transicionesNuevas:
     item[0]= str(nuevoDic.get(tuple(item[0])))
     item[2]= str(nuevoDic.get(tuple(item[2])))
 
-
+'''
+for k, v in nuevoDic.items():
+    print("LA LLAVE",k)
+    print("EL VALOR",v)
+'''
+#print("ACEPTACIONA",aceptacionA)
+def get_key(my_dict,val):
+    for key, value in my_dict.items():
+        #print("EL VALUE",type(value))
+        #print("EL ENCONTRADO",type(val))
+        if val == str(value):
+            return key
+ 
+    return "key doesn't exist"
 #METODO DE SIMULADION DEL AFD DIRECTO
 def simulacionAFD(ini,trans):
     s = ini
     cont = 0
     for c in w:
         s = (mov(s, c,trans))
+        #print(" EL MOVE",s)
     for i in aceptacionA:
         if(i in s):
+            print(i,"ESTA EN",s)
+            print(get_key(nuevoDic,i))
+            for key,value in dicAceptado.items():
+                for x in get_key(nuevoDic,i):
+                    if(x == value):
+                        print("EN EL TOKEN:",key,"ESTA",x)
+
             cont+=1
     if(cont>=1):
         print("SI PARA EL AFD")

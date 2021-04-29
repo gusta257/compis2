@@ -3,6 +3,14 @@ import arbol
 from graphviz import Digraph
 import sys
 
+
+r = "((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*)#|((0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*)#"
+token = {'ident ': '(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*', 'number ': '(0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*'}
+excepcion = {'ident ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number ': {}}
+
+for k,v in token.items():
+    print(k,v)
+
 # METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> |
 def precedence(op):
     if (op == '*'):
@@ -105,7 +113,7 @@ def arreglar1(r):
 
 ## INGRESO DE CADENA Y REGEX
 
-r = input("ingrese la expresion regular: ")
+#r = input("ingrese la expresion regular: ")
 w = input("ingrese la cadena a evaluar: ")
 
 # SI LA CADENA ESTA BIEN SIGUE SINO SE ACABA EL PROGRAMA
@@ -435,51 +443,6 @@ for k,v in diccionarioFollow.items():
 
 diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
 
-# ARRAY DE DE TAMAÑO PARA RECIBIR LOS VALORES DE FOLLOW POS
-respuesta = []
-for i in followvalores:
-    for j in i:
-        respuesta.append([j])
-
-#PRINTS NECESARIOS PARA DEBUGEAR
-#print("POSICIONES A LLENAR FOLLOW POS",respuesta)
-#for i in respuesta:
-#    print("POSICIONES A LLENAR FOLLOW POS",i)
-
-#LLENADO DE VALORES DE FOLLOW POS
-for i in range(len(followvalores)):
-    for j in followvalores[i]:
-        for asd in followPosition[i]:
-            respuesta[j-1].append(asd)
-
-for i in respuesta:
-    i.pop(0)
-
-cont = 0
-for i in (respuesta):
-    if(len(i)==0):
-        cont+=1
-    if (cont>1 and len(i)==0):
-        respuesta.remove(i)
-
-rest = []
-for elem in respuesta: 
-    a = list(set(elem))
-    rest.append(a)
-#print("LA REST",rest)
-
-respuesta = rest
-for i in respuesta:
-    if(len(i) < 1):
-        ##print("LA",i)
-        respuesta.remove(i)
-
-
-#PRINTS NECESARIOS PARA DEBUGEAR
-#print("Llenar con",respuesta)
-#for i in respuesta:
-#    print("LLENAR CON",i)
-
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
 for i in arboles:
@@ -497,7 +460,7 @@ for i in positions:
 
 #print("-"*100)
 #print(diccionarioFollow)    
-#print(respuesta)   
+
 #print(firstposRoot) 
 #print(simbolos)
 #print(importantes)
@@ -570,13 +533,24 @@ transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 #for i in aceptacion:
 #    print("LA Acept",i)
 
-#print("LA RESPUESTA3",respuesta)
-#for i in respuesta:
-#    print("LA RESPUESTA3",i)
 
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
+print("NODOS ACEPTACION", aceptacion)
+print("-"*100)
+for k,v in token.items():
+    print(k,v)
+
+dicAceptado = {}
+contadorA = 0
+for k,v in token.items():
+    dicAceptado[k] = aceptacion[contadorA]
+    contadorA +=1
+
+print("DICCIONARIO ACEPTACION",dicAceptado)
+print("-"*100)
+
 for i in dEstates:
     for j in i:
         for acpt in aceptacion:
@@ -600,15 +574,37 @@ for item in transicionesNuevas:
     item[0]= str(nuevoDic.get(tuple(item[0])))
     item[2]= str(nuevoDic.get(tuple(item[2])))
 
+'''
+for k, v in nuevoDic.items():
+    print("LA LLAVE",k)
+    print("EL VALOR",v)
+'''
 
+print("ACEPTACIONA",aceptacionA)
+def get_key(my_dict,val):
+    for key, value in my_dict.items():
+        #print("EL VALUE",type(value))
+        #print("EL ENCONTRADO",type(val))
+        if val == str(value):
+            return key
+ 
+    return "key doesn't exist"
 #METODO DE SIMULADION DEL AFD DIRECTO
 def simulacionAFD(ini,trans):
     s = ini
     cont = 0
     for c in w:
         s = (mov(s, c,trans))
+        #print(" EL MOVE",s)
     for i in aceptacionA:
         if(i in s):
+            print(i,"ESTA EN",s)
+            print(get_key(nuevoDic,i))
+            for key,value in dicAceptado.items():
+                for x in get_key(nuevoDic,i):
+                    if(x == value):
+                        print("EN EL TOKEN:",key,"ESTA",x)
+
             cont+=1
     if(cont>=1):
         print("SI PARA EL AFD")

@@ -140,8 +140,8 @@ class Arbol:
         ##print("El val 1 es", val1, "y es de largo de",len(val1))
 
         if(len(val1) == 1 and op =='*'):
-            print("IF DE ESTRELLA DONDE EL VAL ES 1")
-            print("EL VAL 1 ES",val1)
+            #print("IF DE ESTRELLA DONDE EL VAL ES 1")
+            #print("EL VAL 1 ES",val1)
             id+=1
             if(val1 != "ε"):
                 idImp+=1
@@ -163,9 +163,9 @@ class Arbol:
 
             self.estructuras.append(hoja2.get_id())
 
-            print("HIJO 1 CREADO",hoja1.get_valor(),"SU PADRE ES",hoja1.get_padreID().get_valor())
-            print("PADRE DE ESTE",hoja2.get_valor())
-            print("*"*100)
+            #print("HIJO 1 CREADO",hoja1.get_valor(),"SU PADRE ES",hoja1.get_padreID().get_valor())
+            #print("PADRE DE ESTE",hoja2.get_valor())
+            #print("*"*100)
 
             
         else:

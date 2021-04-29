@@ -1,26 +1,23 @@
-COMPILER Double    
-	
-(.
-			/*--------------Scanner Especification----------*/
-.)
+COMPILER Aritmetica    
 
 CHARACTERS 
 
+letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz". 
 digit = "0123456789" .
 tab = CHR(9).
 eol = CHR(10).
-blanco = eol+CHR(13)+tab+' '.
 
 KEYWORDS
 
 while = "while".
 do = "do".
+if = "if".
+switch = "switch".
 
 TOKENS
 
+ident = letter{letter|digit} EXCEPT KEYWORDS.
 number = digit{digit}.
-decnumber = digit{digit}"."digit{digit}.
-white = blanco{blanco}.
 
 
-END Double
+END Aritmetica
