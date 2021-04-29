@@ -3,8 +3,8 @@ from graphviz import Digraph
 import sys
 
 r = "((a|b)(c|d)*)#|(e|f)(g)*#|(h)*#"
-token = {'Token1 ': '((a|b)(a|b)*)', 'Token2 ': '(c|d)', 'Token3 ': '(h)*'}
-excepcion = {'Token1 ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'Token2 ': {}, 'Token3 ': {}}
+token = {'Token1': '((a|b)(a|b)*)', 'Token2': '(c|d)', 'Token3': '(h)*'}
+excepcion = {'Token1': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'Token2': {}, 'Token3': {}}
 
 
 

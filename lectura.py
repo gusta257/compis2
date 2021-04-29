@@ -746,9 +746,13 @@ def exceptiones(dictyE, dictyT, dictyK):
     for k,v in dictyT.items():
         for k1,v1 in dictyK.items():
             if("EXCEPT KEYWORDS" in v):
-                dictyE[k] = dictyK
+                llave = k 
+                llave = llave.strip()
+                dictyE[llave] = dictyK
             else:
-                dictyE[k] = {}
+                llave = k 
+                llave = llave.strip()
+                dictyE[llave] = {}
     return dictyE
 def removeExcept(dictyT):
     for k,v in dictyT.items():
@@ -827,6 +831,16 @@ dictExcept = exceptiones(dictExcept, nuevodicT, nuevoDicK)
 #QUITAMOS LOS EXPET DE LOS TOKENS
 nuevodicT = removeExcept(nuevodicT)
 
+def sinEspacio(dictyT):
+    temporal = {}
+    for k,v in dictyT.items():
+        valor = k.strip()
+        temporal[valor] = v
+    return temporal
+
+nuevodicT = sinEspacio(nuevodicT)
+    
+    
 
 
 print("*"*100)
@@ -1482,13 +1496,10 @@ def simulacionAFD(ini,trans,w,position):
             sigue = False
         contadorW+=1
 
-    print("Postion",position)
-    print("Check",check)
+    #print("Postion",position)
+    #print("Check",check)
     tokenR = w[position:check+1]
-    if(len(estadoAceptacion) == 0):
-        print("TOKEN NO RECONOCIDO")
-    else:
-        print("EL TOKEN",tokenR,"es", estadoAceptacion)
+    
 
     return tokenR, check+1, estadoAceptacion
    
@@ -1529,6 +1540,19 @@ print(archivo)
 position = 0
 while(position < len(w)):
     tokenR, position, estadoAceptacion = simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas,w,position)
+
+    if(len(estadoAceptacion) == 0):
+        print("TOKEN",repr(tokenR)," NO RECONOCIDO")
+    else:
+        permitido = True
+        for k,v in excepcion[estadoAceptacion].items():           
+            if(tokenR == v):
+                permitido = False
+                print("EL TOKEN",repr(tokenR),"es un KEYWORD")
+                break
+        if(permitido):
+            print("EL TOKEN",repr(tokenR),"es", estadoAceptacion)
+
 
 
 with open("FILE.txt", "a", encoding="utf-8") as f:

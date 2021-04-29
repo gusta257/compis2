@@ -5,8 +5,8 @@ import sys
 
 
 r = "((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*)#|((0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*)#"
-token = {'ident ': '(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*', 'number ': '(0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*'}
-excepcion = {'ident ': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number ': {}}
+token = {'ident': '(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*', 'number': '(0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*'}
+excepcion = {'ident': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number': {}}
 
 for k,v in token.items():
     print(k,v)
@@ -623,13 +623,10 @@ def simulacionAFD(ini,trans,w,position):
             sigue = False
         contadorW+=1
 
-    print("Postion",position)
-    print("Check",check)
+    #print("Postion",position)
+    #print("Check",check)
     tokenR = w[position:check+1]
-    if(len(estadoAceptacion) == 0):
-        print("TOKEN NO RECONOCIDO")
-    else:
-        print("EL TOKEN",tokenR,"es", estadoAceptacion)
+    
 
     return tokenR, check+1, estadoAceptacion
    
@@ -670,6 +667,19 @@ print(archivo)
 position = 0
 while(position < len(w)):
     tokenR, position, estadoAceptacion = simulacionAFD([transicionesNuevas[0][0]],transicionesNuevas,w,position)
+
+    if(len(estadoAceptacion) == 0):
+        print("TOKEN",repr(tokenR)," NO RECONOCIDO")
+    else:
+        permitido = True
+        for k,v in excepcion[estadoAceptacion].items():           
+            if(tokenR == v):
+                permitido = False
+                print("EL TOKEN",repr(tokenR),"es un KEYWORD")
+                break
+        if(permitido):
+            print("EL TOKEN",repr(tokenR),"es", estadoAceptacion)
+
 
 
 with open("FILE.txt", "a", encoding="utf-8") as f:
