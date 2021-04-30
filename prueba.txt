@@ -1,1 +1,13 @@
-'a'
+
+while
+351351H
++44635
+"holamundo"
+CHR(80)
+CHR(13)..CHR(18)
+'/a''/b'
+CHR(50)..CHR(75)
+(.
+"prueba"
+.)
++

@@ -647,7 +647,7 @@ def cambioAny(dicty):
         superSrtring =""
         if(v.find("ANY") !=-1):
             posAny = v.find("ANY")
-            for c in char_range(chr(50), chr(60)):
+            for c in char_range(chr(0), chr(255)):
                 superSrtring +=  c
             
             superSrtring = chr(1000)+superSrtring+chr(1000)
@@ -738,7 +738,7 @@ def modoAutomata(dictyT):
             elif(i == "["):
                 dictyT[key] = dictyT[key].replace(i, "Ƈ")
             elif(i == "]"):
-                dictyT[key] = dictyT[key].replace(i, "Ɔ?")
+                dictyT[key] = dictyT[key].replace(i, "ƆȰ")
             elif(i == "|"):
                 dictyT[key] = dictyT[key].replace(i, "Ĭ")
             
@@ -871,7 +871,7 @@ superToken = ""
 #print("---------------------------------------",)
 for k,v in nuevodicT.items():
     if(nuevodicT[k] != nuevodicT[list(nuevodicT)[-1]] ):
-        superToken += "Ƈ"+v+"ƆȞĬ"
+        superToken += "ƇƇ"+v+"ƆȞƆĬ"
     else:
         superToken +=  "Ƈ"+v+"ƆȞ"
 
@@ -898,8 +898,8 @@ print("LA FRASE A LEER ES",w)
 
 
 
-#for k,v in token.items():
-#    print(k,v)
+for k,v in token.items():
+    print(k,":",repr(v))
 
 # METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> Ĭ
 def precedence(op):
@@ -974,16 +974,7 @@ def arreglar1(r):
     while i <len(r):
         if(r[i] =='Ƈ'):
             par.append(i)
-        if r[i] == '+':
-            
-            if(r[i-1] == 'Ɔ'):
-
-                sub = r[par.pop():i]
-                
-                expr = expr + 'ɘ' + sub
-            else:
-                expr = expr + 'ɘ' + r[i-1]
-        elif r[i] == '?':
+        if  r[i] == 'Ȱ':
             if(r[i-1] == 'Ɔ'):
     
                 sub = r[par.pop():i]
@@ -1116,7 +1107,7 @@ aceptacion = []
 for i in arboles:
     if(i.get_valor() =='Ȟ'):
         aceptacion.append(i.get_iDImportante())
-    
+    '''
     if(len(i.get_hijos()) > 1):
         if(i.get_padreID() != ""):
             print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
@@ -1126,7 +1117,7 @@ for i in arboles:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
     else:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
-    
+    '''
     
 importantes = claseAFDD.get_importantValues()
 #for elemento in importantes:
@@ -1267,7 +1258,7 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []
@@ -1326,8 +1317,9 @@ for i in followvalores:
             diccionarioFollow[valor] = followPosition[conti]
         else:
             if(followPosition[conti] not in diccionarioFollow[valor]):
-                #print("--------------Sumando posicion",valor,"va con el folllowpos",followPosition[conti][0])
-                diccionarioFollow[valor].append(followPosition[conti][0])
+                for x in followPosition[conti]:
+                    #print("--------------Sumando posicion",valor,"va con el folllowpos",x)
+                    diccionarioFollow[valor].append(x)
     conti +=1
 
 #print(diccionarioFollow)
@@ -1539,7 +1531,7 @@ for i in transicionesNuevas:
     estadosA.append(i[2])
     fad.attr('node', shape='circle')
     fad.edge(i[0], i[2], label=i[1])
-fad.view()
+#fad.view()
 
 #LIMPIEZA DE ESTADOS DE ACEPTACION
 resT = [] 

@@ -5,8 +5,8 @@ from graphviz import Digraph
 import sys
 
 
-r = "ƇƇ'ƆƇƇ/ƆƆ?ƇaĬbĬcĬdƆƇ'ƆƆȞ"
-token = {'char': "Ƈ'ƆƇƇ/ƆƆ?ƇaĬbĬcĬdƆƇ'Ɔ"}
+r = 'ƇƇƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆƇƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆĬƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƆȞƆĬƇƇƇ"ƆƇƇ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ(Ĭ)Ĭ*Ĭ+Ĭ,Ĭ-Ĭ.Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ<Ĭ=Ĭ>Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ[Ĭ\\Ĭ]Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ{Ĭ|Ĭ}Ĭ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿĬ\nĬ\tƆƆƇƇ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ(Ĭ)Ĭ*Ĭ+Ĭ,Ĭ-Ĭ.Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ<Ĭ=Ĭ>Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ[Ĭ\\Ĭ]Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ{Ĭ|Ĭ}Ĭ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿĬ\nĬ\tƆƆɘƇƇ"ƆƆƆȞƆĬƇƇƇ\'ƆƇƇ/ƆƆȰƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆƇ\'ƆƆȞƆĬƇƇƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)ƆƆȞƆĬƇƇƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)ƆƇ..ƆƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)ƆƆȞƆĬƇƇƇ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\rĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ"Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ*Ĭ,Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ\\Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿƆƆȞƆĬƇƇƇ(.ƆƆȞƆĬƇƇ.)ƆƆȞ'
+token = {'ident': 'ƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆƇƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆĬƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘ', 'string': 'Ƈ"ƆƇƇ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ(Ĭ)Ĭ*Ĭ+Ĭ,Ĭ-Ĭ.Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ<Ĭ=Ĭ>Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ[Ĭ\\Ĭ]Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ{Ĭ|Ĭ}Ĭ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿĬ\nĬ\tƆƆƇƇ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ(Ĭ)Ĭ*Ĭ+Ĭ,Ĭ-Ĭ.Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ<Ĭ=Ĭ>Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ[Ĭ\\Ĭ]Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ{Ĭ|Ĭ}Ĭ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿĬ\nĬ\tƆƆɘƇƇ"ƆƆ', 'char': "Ƈ'ƆƇƇ/ƆƆȰƇAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬÑĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬñĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzƆƇ'Ɔ", 'charnumber': 'ƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)Ɔ', 'charinterval': 'ƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)ƆƇ..ƆƇCHR(ƆƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƇƇ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9ƆƆɘƇ)Ɔ', 'nontoken': 'Ƈ\x00Ĭ\x01Ĭ\x02Ĭ\x03Ĭ\x04Ĭ\x05Ĭ\x06Ĭ\x07Ĭ\x08Ĭ\tĬ\nĬ\x0bĬ\x0cĬ\rĬ\x0eĬ\x0fĬ\x10Ĭ\x11Ĭ\x12Ĭ\x13Ĭ\x14Ĭ\x15Ĭ\x16Ĭ\x17Ĭ\x18Ĭ\x19Ĭ\x1aĬ\x1bĬ\x1cĬ\x1dĬ\x1eĬ\x1fĬ Ĭ!Ĭ"Ĭ#Ĭ$Ĭ%Ĭ&Ĭ\'Ĭ*Ĭ,Ĭ/Ĭ0Ĭ1Ĭ2Ĭ3Ĭ4Ĭ5Ĭ6Ĭ7Ĭ8Ĭ9Ĭ:Ĭ;Ĭ?Ĭ@ĬAĬBĬCĬDĬEĬFĬGĬHĬIĬJĬKĬLĬMĬNĬOĬPĬQĬRĬSĬTĬUĬVĬWĬXĬYĬZĬ\\Ĭ^Ĭ_Ĭ`ĬaĬbĬcĬdĬeĬfĬgĬhĬiĬjĬkĬlĬmĬnĬoĬpĬqĬrĬsĬtĬuĬvĬwĬxĬyĬzĬ~Ĭ\x7fĬ\x80Ĭ\x81Ĭ\x82Ĭ\x83Ĭ\x84Ĭ\x85Ĭ\x86Ĭ\x87Ĭ\x88Ĭ\x89Ĭ\x8aĬ\x8bĬ\x8cĬ\x8dĬ\x8eĬ\x8fĬ\x90Ĭ\x91Ĭ\x92Ĭ\x93Ĭ\x94Ĭ\x95Ĭ\x96Ĭ\x97Ĭ\x98Ĭ\x99Ĭ\x9aĬ\x9bĬ\x9cĬ\x9dĬ\x9eĬ\x9fĬ\xa0Ĭ¡Ĭ¢Ĭ£Ĭ¤Ĭ¥Ĭ¦Ĭ§Ĭ¨Ĭ©ĬªĬ«Ĭ¬Ĭ\xadĬ®Ĭ¯Ĭ°Ĭ±Ĭ²Ĭ³Ĭ´ĬµĬ¶Ĭ·Ĭ¸Ĭ¹ĬºĬ»Ĭ¼Ĭ½Ĭ¾Ĭ¿ĬÀĬÁĬÂĬÃĬÄĬÅĬÆĬÇĬÈĬÉĬÊĬËĬÌĬÍĬÎĬÏĬÐĬÑĬÒĬÓĬÔĬÕĬÖĬ×ĬØĬÙĬÚĬÛĬÜĬÝĬÞĬßĬàĬáĬâĬãĬäĬåĬæĬçĬèĬéĬêĬëĬìĬíĬîĬïĬðĬñĬòĬóĬôĬõĬöĬ÷ĬøĬùĬúĬûĬüĬýĬþĬÿƆ', 'startcode': 'Ƈ(.Ɔ', 'endcode': 'Ƈ.)Ɔ'}
 excepcion = {}
 file2 = open('prueba.txt', 'r',encoding='utf-8')
 w = ""
@@ -17,8 +17,8 @@ print("LA FRASE A LEER ES",w)
 
 
 
-#for k,v in token.items():
-#    print(k,v)
+for k,v in token.items():
+    print(k,":",repr(v))
 
 # METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> Ĭ
 def precedence(op):
@@ -93,16 +93,7 @@ def arreglar1(r):
     while i <len(r):
         if(r[i] =='Ƈ'):
             par.append(i)
-        if r[i] == '+':
-            
-            if(r[i-1] == 'Ɔ'):
-
-                sub = r[par.pop():i]
-                
-                expr = expr + 'ɘ' + sub
-            else:
-                expr = expr + 'ɘ' + r[i-1]
-        elif r[i] == '?':
+        if  r[i] == 'Ȱ':
             if(r[i-1] == 'Ɔ'):
     
                 sub = r[par.pop():i]
@@ -235,7 +226,7 @@ aceptacion = []
 for i in arboles:
     if(i.get_valor() =='Ȟ'):
         aceptacion.append(i.get_iDImportante())
-    
+    '''
     if(len(i.get_hijos()) > 1):
         if(i.get_padreID() != ""):
             print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
@@ -245,7 +236,7 @@ for i in arboles:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
     else:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
-    
+    '''
     
 importantes = claseAFDD.get_importantValues()
 #for elemento in importantes:
@@ -386,7 +377,7 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []
@@ -445,8 +436,9 @@ for i in followvalores:
             diccionarioFollow[valor] = followPosition[conti]
         else:
             if(followPosition[conti] not in diccionarioFollow[valor]):
-                #print("--------------Sumando posicion",valor,"va con el folllowpos",followPosition[conti][0])
-                diccionarioFollow[valor].append(followPosition[conti][0])
+                for x in followPosition[conti]:
+                    #print("--------------Sumando posicion",valor,"va con el folllowpos",x)
+                    diccionarioFollow[valor].append(x)
     conti +=1
 
 #print(diccionarioFollow)
@@ -658,7 +650,7 @@ for i in transicionesNuevas:
     estadosA.append(i[2])
     fad.attr('node', shape='circle')
     fad.edge(i[0], i[2], label=i[1])
-fad.view()
+#fad.view()
 
 #LIMPIEZA DE ESTADOS DE ACEPTACION
 resT = [] 

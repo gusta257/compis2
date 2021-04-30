@@ -30,12 +30,12 @@ class Arbol:
             id+=1
             
             #(id, padreID, valor, hijos)
-            if(val1 != "ε"):
-                idImp+=1
-                hoja1 = hojas.Hojas(id,'',val1,idImp,[])
-                self.importantValues.append((hoja1,idImp,id))
-            else:
-                hoja1 = hojas.Hojas(id,'',val1,'',[])
+            #if(val1 != "ε"):
+            idImp+=1
+            hoja1 = hojas.Hojas(id,'',val1,idImp,[])
+            self.importantValues.append((hoja1,idImp,id))
+            #else:
+            #    hoja1 = hojas.Hojas(id,'',val1,'',[])
 
             
             self.nodos.append(hoja1)
@@ -43,12 +43,12 @@ class Arbol:
             ##print("SE CREO UN IMPORTANT VALUE")
             # NODO 2
             id+=1
-            if(val2 != "ε"):
-                idImp+=1
-                hoja2 = hojas.Hojas(id,'',val2,idImp,[])
-                self.importantValues.append((hoja2,idImp,id))
-            else:
-                hoja2 = hojas.Hojas(id,'',val2,'',[])
+            #if(val2 != "ε"):
+            idImp+=1
+            hoja2 = hojas.Hojas(id,'',val2,idImp,[])
+            self.importantValues.append((hoja2,idImp,id))
+            #else:
+            #    hoja2 = hojas.Hojas(id,'',val2,'',[])
 
             self.nodos.append(hoja2)
             ##print("SE CREO UN IMPORTANT VALUE")
@@ -144,12 +144,12 @@ class Arbol:
             #print("IF DE ESTRELLA DONDE EL VAL ES 1")
             #print("EL VAL 1 ES",val1)
             id+=1
-            if(val1 != "ε"):
-                idImp+=1
-                hoja1 = hojas.Hojas(id,'',val1,idImp,[])
-                self.importantValues.append((hoja1,idImp,id))
-            else:
-                hoja1 = hojas.Hojas(id,'',val1,'',[])
+            #if(val1 != "ε"):
+            idImp+=1
+            hoja1 = hojas.Hojas(id,'',val1,idImp,[])
+            self.importantValues.append((hoja1,idImp,id))
+            #else:
+            #    hoja1 = hojas.Hojas(id,'',val1,'',[])
             self.nodos.append(hoja1)
             ##print("SE CREO UN IMPORTANT VALUE")
 
@@ -221,12 +221,12 @@ class Arbol:
             hojaH1 = self.nodos[-1]
             id+=1
             ##print("EL ID DEL HIJO1",hojaH1.get_id())
-            if(val2 != "ε"):
-                idImp+=1
-                hojaH2 = hojas.Hojas(id,'',val2,idImp,[])
-                self.importantValues.append((hojaH2,idImp,id))
-            else:
-                hojaH2 = hojas.Hojas(id,'',val2,'',[])
+            #if(val2 != "ε"):
+            idImp+=1
+            hojaH2 = hojas.Hojas(id,'',val2,idImp,[])
+            self.importantValues.append((hojaH2,idImp,id))
+            #else:
+            #    hojaH2 = hojas.Hojas(id,'',val2,'',[])
             ##print("SE CREO UN IMPORTANT VALUE")
             self.nodos.append(hojaH2)
 
@@ -266,12 +266,12 @@ class Arbol:
             hojaH2 = self.nodos[-1]
             id+=1
             ##print("EL ID DEL HIJO1",hojaH2.get_id())
-            if(val1 != "ε"):
-                idImp+=1
-                hojaH1 = hojas.Hojas(id,'',val1,idImp,[])
-                self.importantValues.append((hojaH1,idImp,id))
-            else:
-                hojaH1 = hojas.Hojas(id,'',val1,'',[])
+            #if(val1 != "ε"):
+            idImp+=1
+            hojaH1 = hojas.Hojas(id,'',val1,idImp,[])
+            self.importantValues.append((hojaH1,idImp,id))
+            #else:
+            #    hojaH1 = hojas.Hojas(id,'',val1,'',[])
             ##print("SE CREO UN IMPORTANT VALUE")
             self.nodos.append(hojaH1)
 
@@ -298,23 +298,23 @@ class Arbol:
             #print("EL VAL 2 ES",val2)
             id+=1
             ##print("EL ID DEL HIJO1",hojaH1.get_id())
-            if(val1 != "ε"):
-                idImp+=1
-                hojaH1 = hojas.Hojas(id,'',val1,idImp,[])
-                self.importantValues.append((hojaH1,idImp,id))
-            else:
-                hojaH1 = hojas.Hojas(id,'',val1,'',[])
+            #if(val1 != "ε"):
+            idImp+=1
+            hojaH1 = hojas.Hojas(id,'',val1,idImp,[])
+            self.importantValues.append((hojaH1,idImp,id))
+            #else:
+            #    hojaH1 = hojas.Hojas(id,'',val1,'',[])
             ##print("SE CREO UN IMPORTANT VALUE")
             self.nodos.append(hojaH1)
 
             id+=1
             ##print("EL ID DEL HIJO1",hojaH1.get_id())
-            if(val2 != "ε"):
-                idImp+=1
-                hojaH2 = hojas.Hojas(id,'',val2,idImp,[])
-                self.importantValues.append((hojaH2,idImp,id))
-            else:
-                hojaH2 = hojas.Hojas(id,'',val2,'',[])
+            #if(val2 != "ε"):
+            idImp+=1
+            hojaH2 = hojas.Hojas(id,'',val2,idImp,[])
+            self.importantValues.append((hojaH2,idImp,id))
+            #else:
+            #    hojaH2 = hojas.Hojas(id,'',val2,'',[])
             ##print("SE CREO UN IMPORTANT VALUE")
             self.nodos.append(hojaH2)
 
