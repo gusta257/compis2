@@ -862,14 +862,13 @@ superToken = ""
 #print("---------------------------------------",)
 for k,v in nuevodicT.items():
     if(nuevodicT[k] != nuevodicT[list(nuevodicT)[-1]] ):
-        superToken += "("+v+")#|"
+        superToken += "("+v+")#"
     else:
         superToken +=  "("+v+")#"
 
 print("EL SUPER TOKEN")
-print(repr(superToken))
-
-comida= "banana"
+superToken = repr(superToken)
+print(superToken)
 
 multiline_str = """
 import arbol
@@ -877,9 +876,17 @@ from graphviz import Digraph
 import sys
 
 
-r = \""""+r'{}'.format(superToken) +"""\"
+r = """+r'{}'.format(superToken) +"""
 token = """+r'{}'.format(nuevodicT)+"""
 excepcion = """+r'{}'.format(dictExcept)+"""
+file2 = open('prueba.txt', 'r',encoding='utf-8')
+w = ""
+for i in file2:
+    w+= i
+
+print("LA FRASE A LEER ES",w)
+
+
 
 for k,v in token.items():
     print(k,v)
@@ -987,7 +994,7 @@ def arreglar1(r):
 ## INGRESO DE CADENA Y REGEX
 
 #r = input("ingrese la expresion regular: ")
-w = input("ingrese la cadena a evaluar: ")
+#w = input("ingrese la cadena a evaluar: ")
 
 # SI LA CADENA ESTA BIEN SIGUE SINO SE ACABA EL PROGRAMA
 if(contar(r)):
@@ -1019,12 +1026,12 @@ rAFD = arreglar2(rAFD)
 r = rAFD
 
 #print("LA RE ES ", r)
-
+operadoresUtils = ['.','*','(',')','|']
 # SE UTILIZA LA MISMA LECTURA DE DATOS SOLO QUE ESTA VEZ PARA ARMAR EL ARBOL 
 while i < len(r):
     if r[i] == '(':
         ops.append(r[i])
-    elif r[i].isalpha() or r[i].isdigit() or r[i] == '#':
+    elif r[i] not in operadoresUtils:
         values.append(r[i])
     elif r[i] == ')':
         while len(ops) != 0 and ops[-1] != '(':
@@ -1548,10 +1555,10 @@ while(position < len(w)):
         for k,v in excepcion[estadoAceptacion].items():           
             if(tokenR == v):
                 permitido = False
-                print("EL TOKEN",repr(tokenR),"es un KEYWORD")
+                print("TOKEN",repr(tokenR),"-> KEYWORD")
                 break
         if(permitido):
-            print("EL TOKEN",repr(tokenR),"es", estadoAceptacion)
+            print("TOKEN",repr(tokenR),"->", estadoAceptacion)
 
 
 

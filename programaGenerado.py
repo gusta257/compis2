@@ -4,9 +4,17 @@ from graphviz import Digraph
 import sys
 
 
-r = "((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*)#|((0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*)#"
+r = '((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*)#|((0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*)#'
 token = {'ident': '(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)((A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)|(0|1|2|3|4|5|6|7|8|9))*', 'number': '(0|1|2|3|4|5|6|7|8|9)((0|1|2|3|4|5|6|7|8|9))*'}
 excepcion = {'ident': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'number': {}}
+file2 = open('prueba.txt', 'r',encoding='utf-8')
+w = ""
+for i in file2:
+    w+= i
+
+print("LA FRASE A LEER ES",w)
+
+
 
 for k,v in token.items():
     print(k,v)
@@ -114,7 +122,7 @@ def arreglar1(r):
 ## INGRESO DE CADENA Y REGEX
 
 #r = input("ingrese la expresion regular: ")
-w = input("ingrese la cadena a evaluar: ")
+#w = input("ingrese la cadena a evaluar: ")
 
 # SI LA CADENA ESTA BIEN SIGUE SINO SE ACABA EL PROGRAMA
 if(contar(r)):
@@ -146,12 +154,12 @@ rAFD = arreglar2(rAFD)
 r = rAFD
 
 #print("LA RE ES ", r)
-
+operadoresUtils = ['.','*','(',')','|']
 # SE UTILIZA LA MISMA LECTURA DE DATOS SOLO QUE ESTA VEZ PARA ARMAR EL ARBOL 
 while i < len(r):
     if r[i] == '(':
         ops.append(r[i])
-    elif r[i].isalpha() or r[i].isdigit() or r[i] == '#':
+    elif r[i] not in operadoresUtils:
         values.append(r[i])
     elif r[i] == ')':
         while len(ops) != 0 and ops[-1] != '(':
@@ -675,10 +683,10 @@ while(position < len(w)):
         for k,v in excepcion[estadoAceptacion].items():           
             if(tokenR == v):
                 permitido = False
-                print("EL TOKEN",repr(tokenR),"es un KEYWORD")
+                print("TOKEN",repr(tokenR),"-> KEYWORD")
                 break
         if(permitido):
-            print("EL TOKEN",repr(tokenR),"es", estadoAceptacion)
+            print("TOKEN",repr(tokenR),"->", estadoAceptacion)
 
 
 
