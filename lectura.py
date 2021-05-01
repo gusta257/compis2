@@ -1,9 +1,12 @@
-# coding=utf8
 import re
+# METODO PARA GENERAR UN RANGO DE CHARACTERES, SERA USADO PARA EL ANY Y PARA EL RANGO DE CHARS
+# BASADO EN https://stackoverflow.com/questions/7001144/range-over-character-in-python
 def char_range(c1, c2):
     """Generates the characters from `c1` to `c2`, inclusive."""
     for c in range(ord(c1), ord(c2)+1):
         yield chr(c)
+
+# METODO PARA ELIMINAR ESPACIOS EXTRAS EN LOS ARRAYS
 def eliminarEspacio(lista):
     cont = 0
     for i in lista:
@@ -12,6 +15,8 @@ def eliminarEspacio(lista):
         
         cont+=1
     return lista
+
+#METODO PARA JUNTAR TODOS LOS ELEMENTOS DE LA LISTA
 def juntar(lista):
     a = []
     for i in lista:
@@ -19,6 +24,7 @@ def juntar(lista):
         a.append(i)
 
     return a
+# METODO PARA REMOVER EL PINTO FINAL DE CADA LISTA
 def removePunto(lista):
     a = []
     for i in lista:
@@ -26,6 +32,8 @@ def removePunto(lista):
         a.append(i)
 
     return a
+
+# METODO DE VERIFICACION DE CARACTERES
 def checkCharacters(listaCheck):
     cont = 0
     todoB = True
@@ -314,6 +322,8 @@ def checkCharacters(listaCheck):
             #afterIgual = afterIgual.replace("\"", '')
             #keyArray.append(afterIgual)
     return todoB, idents,nuevoArray
+
+# METODO DE VERIFICACION DE KEYWORDS
 def checkKeyWords(listaCheck):
     nuevoArray = []
     cont = 0
@@ -356,12 +366,16 @@ def checkKeyWords(listaCheck):
         
 
     return todoB,keyArray,nuevoArray
+
+# MEOTODO PARA REMOVER ELEMENTOS EXTRAS VACIOS DE LA LISTA
 def removeExtra(lista):
     a = []
     for i in lista:
         i = " ".join(i.split())
         a.append(i)
     return a
+
+# METODO PARA VERTIFICAR QUE CADA SIMBOLO DE APERTURA TENGA UNO DE CIERRE
 def cantSigno(palabra,signoA,signoC,i):
     if(palabra.count(signoA) == palabra.count(signoC)):
         #print("Todo bien en",signoA,i)
@@ -369,6 +383,7 @@ def cantSigno(palabra,signoA,signoC,i):
     else:
         #print("Te falta calle", i)
         return False
+# METODO DE VERIFICACION DE TOKENS
 def checkTokens(lista):
     todoB = True
     llaves = []
@@ -413,9 +428,13 @@ def checkTokens(lista):
         
         
     return todoB, nuevoA
+
+# METODO PARA CONVERTIR UNA LISTA EN UN ARRAY
 def Convert(lst):
     res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
     return res_dct
+
+# METODO PARA REMOVER EL PUNTO DE CADA CHARACTER
 def removerPuntoChar(lista):
     a = [] 
     for i in lista:
@@ -425,7 +444,7 @@ def removerPuntoChar(lista):
         a.append(i)
     return a
 
-
+# SELECCION DE ARCHIVO ATG
 archivo = input("Ingresa el archivo .ATG para leer: ")
 print()
 file = open(archivo, 'r',encoding='utf-8')
@@ -437,7 +456,7 @@ characters = []
 keywords = []
 tokens = []
 nuevosChars = []
-#Lectura
+#Lectura DEL ARCHIVO
 for line in file:
     line = line.rstrip("\n")
     if("COMPILER" in line):
@@ -574,19 +593,25 @@ else:
 print("*"*100)
 
 
+# UNA VEZ  TODO PASADO A DICCIONARIOS EMPIEZAN LAS TRANSFORMACIONES
+
+
+# METODO PARA CAMBIAR LAS COMILLAS EN CARACTERES FUERA DEL RANGO HABITUAL
 
 def sustituirComillas(dicty):
     for k,v in dicty.items():
         temp = ''
         for char in v:
             if(char == "\""):
-                temp+=chr(1000)
+                temp+=chr(956)
             elif(char == "\'"):
-                temp+=chr(1000)
+                temp+=chr(956)
             else:
                 temp+=char
         dicty[k] = temp
     return dicty
+
+# METODO PARA CAMBIAR EL CHR NORMAL Y EL RANGO, Y LOS CHARS
 def cambioCHR(dicty):
     for k,v in dicty.items():
         superSrtring = ""
@@ -611,7 +636,7 @@ def cambioCHR(dicty):
 
                 for c in char_range(chr(int(aferCHR1)), chr(int(charFinal))):
                     superSrtring +=  c
-                superSrtring = chr(1000)+superSrtring+chr(1000)
+                superSrtring = chr(956)+superSrtring+chr(956)
                 dicty[k] = superSrtring 
 
             else:
@@ -623,13 +648,13 @@ def cambioCHR(dicty):
                 #print("charFinal:",charFinal)
                 for c in char_range(charIincial, charFinal):
                     superSrtring +=  c
-                superSrtring = chr(1000)+superSrtring+chr(1000)
+                superSrtring = chr(956)+superSrtring+chr(956)
                 #print("el superSrtring",superSrtring)
                 dicty[k] = superSrtring 
         else:
             for i in v:
                 if(i == "\""):
-                    temp+=chr(1000)
+                    temp+=chr(956)
                 else:
                     temp+=i
             superSrtring = temp
@@ -646,12 +671,14 @@ def cambioCHR(dicty):
                     aferCHR = temp[numeroCHR+4:finCHR]
                     #print("---------EL VALOR A CAMBIAR---",aferCHR)
                     #print("*********",aferCHR)
-                    temp  = temp[:numeroCHR]+ chr(1000)+chr(int(aferCHR))+chr(1000)+temp[finCHR+1:]
+                    temp  = temp[:numeroCHR]+ chr(956)+chr(int(aferCHR))+chr(956)+temp[finCHR+1:]
                     #print("--------------temp---",temp)
 
                 superSrtring = temp
                 dicty[k] = superSrtring 
     return dicty
+
+# METODO PARA CABIAR EL ANY EN UN RANGO DE 0 A 255
 def cambioAny(dicty):
     
     for k,v in dicty.items():
@@ -661,11 +688,14 @@ def cambioAny(dicty):
             for c in char_range(chr(0), chr(255)):
                 superSrtring +=  c
             
-            superSrtring = chr(1000)+superSrtring+chr(1000)
+            superSrtring = chr(956)+superSrtring+chr(956)
             superSrtring = v.replace("ANY",superSrtring)
 
             dicty[k] = superSrtring
     return dicty
+
+# METODO PARA SUSTITUIR LAS VARIABLES
+
 def sustitucionVariables(dicty):
     llavesT = []
 
@@ -679,6 +709,9 @@ def sustitucionVariables(dicty):
             if(i in dicty[key]):
                 dicty[key] = dicty[key].replace(i ,dicty[i])
     return dicty
+
+# METODO PARA EJECUTAR LAS OPERACIONES DE SUMA Y RESTA EN LAS CHARACTERS
+
 def operaciones(dicty):
     for k,v in dicty.items():
         string = False
@@ -695,7 +728,7 @@ def operaciones(dicty):
                 respuesta = v
                 break
             if (not(primera)):
-                if (v[cont] == chr(1000)):
+                if (v[cont] == chr(956)):
                     string = not(string)
                 if string:
                     #print(tmep)
@@ -705,7 +738,7 @@ def operaciones(dicty):
                     #print("*/*/*/*/*/*/*/*/*//",repr(tmep))
                     respuesta = tmep[1:]
             else:
-                if v[cont] == chr(1000):
+                if v[cont] == chr(956):
                     string = not(string)
                 if(not(string) and v[cont] == "+") or (not(string) and v[cont] =="-"):
                     operador = v[cont]
@@ -727,6 +760,9 @@ def operaciones(dicty):
             cont+=1
         dicty[k] = respuesta
     return dicty
+
+# METODO PARA INGRESAR LOS PIPES A CADA ELEMENTO DEL CHARACTER
+
 def pipesChar(dicty):
     for key, value in dicty.items():
         megaString = ""
@@ -739,6 +775,8 @@ def pipesChar(dicty):
                 megaString += i
         dicty[key] = megaString
     return dicty
+
+#  METODO PARA CAMBIAR ELEMENTOS DE LOS TOKENS A ELEMENTOS DE E.R DE AUTOMATAS
 def modoAutomata(dictyT):
     for key, value in dictyT.items():
         for i in value:
@@ -755,12 +793,16 @@ def modoAutomata(dictyT):
             
             
     return dictyT
+
+# METODO PARA AGRUPAR EN PARENTESIS CADA TOKEN
 def modoAuto4(dictyT,dicty):
     for key, value in dictyT.items():
         for i in reversed(dicty):
             #print(repr(("REEMPLAZAR EL",i,"POR","("+dicty[i]+")")))
             dictyT[key] = dictyT[key].replace(i, "Ƈ"+dicty[i]+"Ɔ")
     return dictyT
+
+# METODO DE CRACION DE DICCIONARIO CON LAS EXCEPCIONES DE CADA TOKEN
 def exceptiones(dictyE, dictyT, dictyK):
     
     for k,v in dictyT.items():
@@ -774,6 +816,8 @@ def exceptiones(dictyE, dictyT, dictyK):
                 llave = llave.strip()
                 dictyE[llave] = {}
     return dictyE
+
+# LIMPIEZA DE EXCEPCIONES DEL DICCIONARIO DE TOKENS 
 def removeExcept(dictyT):
     for k,v in dictyT.items():
         temp = {}
@@ -786,6 +830,8 @@ def removeExcept(dictyT):
             temp[k] = v[:-1].lstrip()
         dictyT[k] = temp[k]
     return dictyT
+
+# METODO PARA AGREGAR PARENTESIS A TOKENS NECESARIOS ENTRE COMILLAS
 def modoAuto2(dictyT):
     for k,v in dictyT.items():
         temp = v
@@ -807,6 +853,7 @@ def modoAuto2(dictyT):
             cont+=1
         dictyT[k] = temporal
     return dictyT
+# METODO PARA AGREGAR PARENTESIS A TOKENS NECESARIOS ENTRE ESPACIOS
 def modoAuto3(dictyT):
     for k,v in dictyT.items():
         temp = v
@@ -876,6 +923,7 @@ dictExcept = exceptiones(dictExcept, nuevodicT, nuevoDicK)
 #QUITAMOS LOS EXPET DE LOS TOKENS
 nuevodicT = removeExcept(nuevodicT)
 
+# REMOVER ESPACIO INICIAL EXTRA DE TOKENS
 def sinEspacio(dictyT):
     temporal = {}
     for k,v in dictyT.items():
@@ -906,6 +954,8 @@ print()
 
 superToken = ""
 #print("---------------------------------------",)
+
+# CREACRION FINAL DE EXPRESION REGULAR TOTAL
 for k,v in nuevodicT.items():
     if(nuevodicT[k] != nuevodicT[list(nuevodicT)[-1]] ):
         superToken += "ƇƇ"+v+"ƆȞƆĬ"
