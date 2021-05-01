@@ -144,9 +144,10 @@ def checkCharacters(listaCheck):
                      #   print("No problem ident")
                         pass
                     else:
-                        print("No hay ident que haga match en array", i,"ident:", ide)
-                        todoB = False
-                        break
+                        #print("No hay ident que haga match en array", i,"ident:", ide)
+                        #todoB = False
+                        #break
+                        pass
                 for stri in arrayOpStr:
                     if(stri.endswith(".")):
                         contPuntos +=1
@@ -158,13 +159,15 @@ def checkCharacters(listaCheck):
                      #       print("No problem con el string XD", stri)
                             pass
                         else:
-                            print("FALTA UN \" WEY en:", stri)
-                            todoB = False
-                            break
+                            #print("FALTA UN \" WEY en:", stri)
+                            #todoB = False
+                            #break
+                            pass
                     else:
-                        print("Problema con este string",stri, "de la linea",i)
-                        todoB = False
-                        break
+                        #print("Problema con este string",stri, "de la linea",i)
+                        #todoB = False
+                        #break
+                        pass
 
 
                 #print(contPuntos)
@@ -390,18 +393,21 @@ def checkTokens(lista):
                 if(cantSigno(afterIgual,"{","}",i)):
                     pass
                 else:
-                    todoB = False
-                    break
+                    #todoB = False
+                    #break
+                    pass
                 if(cantSigno(afterIgual,"[","]",i)):
                     pass
                 else:
-                    todoB = False
-                    break
+                    #todoB = False
+                    #break
+                    pass
                 if(cantSigno(afterIgual,"(",")",i)):
                     pass
                 else:
-                    todoB = False
-                    break
+                    #todoB = False
+                    #break
+                    pass
         
         
     return todoB, nuevoA
@@ -641,7 +647,7 @@ def cambioAny(dicty):
         superSrtring =""
         if(v.find("ANY") !=-1):
             posAny = v.find("ANY")
-            for c in char_range(chr(0), chr(255)):
+            for c in char_range(chr(50), chr(60)):
                 superSrtring +=  c
             
             superSrtring = chr(1000)+superSrtring+chr(1000)
@@ -717,7 +723,7 @@ def pipesChar(dicty):
         for i in value:
             pos += 1
             if pos != len(value) - 1:
-                megaString += i+"|"
+                megaString += i+"Ĭ"
             else:
                 megaString += i
         dicty[key] = megaString
@@ -726,20 +732,23 @@ def modoAutomata(dictyT):
     for key, value in dictyT.items():
         for i in value:
             if(i == "{"):
-                dictyT[key] = dictyT[key].replace(i, "(")
+                dictyT[key] = dictyT[key].replace(i, "Ƈ")
             elif(i == "}"):
-                dictyT[key] = dictyT[key].replace(i, ")*")
+                dictyT[key] = dictyT[key].replace(i, "Ɔɘ")
             elif(i == "["):
-                dictyT[key] = dictyT[key].replace(i, "(")
+                dictyT[key] = dictyT[key].replace(i, "Ƈ")
             elif(i == "]"):
-                dictyT[key] = dictyT[key].replace(i, ")?")
+                dictyT[key] = dictyT[key].replace(i, "Ɔ?")
+            elif(i == "|"):
+                dictyT[key] = dictyT[key].replace(i, "Ĭ")
+            
             
     return dictyT
 def modoAuto3(dictyT,dicty):
     for key, value in dictyT.items():
         for i in reversed(dicty):
             #print(repr(("REEMPLAZAR EL",i,"POR","("+dicty[i]+")")))
-            dictyT[key] = dictyT[key].replace(i, "("+dicty[i]+")")
+            dictyT[key] = dictyT[key].replace(i, "Ƈ"+dicty[i]+"Ɔ")
     return dictyT
 def exceptiones(dictyE, dictyT, dictyK):
     
@@ -775,11 +784,11 @@ def modoAuto2(dictyT):
         segunda = False
         while cont < len(temp):
             if(temp[cont] == "\"" and primera):
-                temporal += "("
+                temporal += "Ƈ"
                 primera = False
                 segunda = True
             elif(temp[cont] == "\"" and segunda):
-                temporal += ")"
+                temporal += "Ɔ"
                 primera = True
                 segunda = False
             else:
@@ -815,10 +824,10 @@ nuevoDic = pipesChar(nuevoDic)
 
 #REEMPLAZO DE LOS PARENTESIS Y DE LOS CORCHETES POR SIMBOLOS DE AUTOMATA
 nuevodicT = modoAutomata(nuevodicT)
-#print("NUEVO DICT modoAutomata",nuevodicT)
-#print()
+print("NUEVO DICT modoAutomata",nuevodicT)
+print()
 nuevodicT = modoAuto2(nuevodicT)
-#print("NUEVO DICT modoAuto2",nuevodicT)
+print("NUEVO DICT modoAuto2",nuevodicT)
 #print()
 #SUSTITUYENDO EN TOKENS EN PARENTESIS
 #print("/////////////////////////////",nuevoDic)
@@ -862,15 +871,16 @@ superToken = ""
 #print("---------------------------------------",)
 for k,v in nuevodicT.items():
     if(nuevodicT[k] != nuevodicT[list(nuevodicT)[-1]] ):
-        superToken += "("+v+")#"
+        superToken += "Ƈ"+v+"ƆȞĬ"
     else:
-        superToken +=  "("+v+")#"
+        superToken +=  "Ƈ"+v+"ƆȞ"
 
 print("EL SUPER TOKEN")
 superToken = repr(superToken)
 print(superToken)
 
 multiline_str = """
+# coding=utf8
 import arbol
 from graphviz import Digraph
 import sys
@@ -888,16 +898,16 @@ print("LA FRASE A LEER ES",w)
 
 
 
-for k,v in token.items():
-    print(k,v)
+#for k,v in token.items():
+#    print(k,v)
 
-# METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> |
+# METODO PARA ASIGNAR QUE OPERACION TIENE MAS PRECEDENCIA QUE OTRO EN ESTE ORDEN DESC: * -> . -> Ĭ
 def precedence(op):
-    if (op == '*'):
+    if (op == 'ɘ'):
         return 3
-    if (op == '.'):
+    if (op == 'ȹ'):
         return 2
-    if (op == '|'):
+    if (op == 'Ĭ'):
         return 1
     return 0
 # METODO MOVE PARA SIMULAR ALGORITMOS
@@ -917,9 +927,9 @@ def contar(r):
     cont1 = 0
     cont2 = 0 
     for i in r:
-        if(i == "("):
+        if(i == "Ƈ"):
             cont1+=1
-        if(i==")"):
+        if(i=="Ɔ"):
             cont2+=1
     if(cont1 == cont2):
         return True
@@ -933,18 +943,18 @@ def arreglar2(r):
     expr = ''
     cont = 0 
     while i < len(r):
-        if (r[i] == '|'):
+        if (r[i] == 'Ĭ'):
             cont = 0
-        elif(r[i] == '('):
+        elif(r[i] == 'Ƈ'):
             if (cont == 1):
-                expr = expr + '.'
+                expr = expr + 'ȹ'
                 cont = 0;
-        elif(r[i] == ')' or r[i] == '*'):
+        elif(r[i] == 'Ɔ' or r[i] == 'ɘ'):
             pass
         else:
             cont = cont + 1
         if(cont == 2):
-            expr = expr+'.'+r[i]
+            expr = expr+'ȹ'+r[i]
             cont = 1
         else:
             expr = expr + r[i]
@@ -952,8 +962,8 @@ def arreglar2(r):
     return expr
 
 # METODO QUE CONVIERTE LAS EXPRESIONES REGULARES EN SUS OTRAS FORMAS
-# (A)+ -> (A)*(A)
-# (A)? -> (A|ε)
+# (A)+ -> (A)ɘ(A)
+# (A)? -> (AĬε)
 def arreglar1(r):
     #ε
     i = 0
@@ -962,29 +972,29 @@ def arreglar1(r):
     sub = ''
     resta = []
     while i <len(r):
-        if(r[i] =='('):
+        if(r[i] =='Ƈ'):
             par.append(i)
         if r[i] == '+':
             
-            if(r[i-1] == ')'):
+            if(r[i-1] == 'Ɔ'):
 
                 sub = r[par.pop():i]
                 
-                expr = expr + '*' + sub
+                expr = expr + 'ɘ' + sub
             else:
-                expr = expr + '*' + r[i-1]
+                expr = expr + 'ɘ' + r[i-1]
         elif r[i] == '?':
-            if(r[i-1] == ')'):
+            if(r[i-1] == 'Ɔ'):
     
                 sub = r[par.pop():i]
                 subl = len(sub)-1
                 expr = expr[:-subl]
                 expr = expr + sub
-                expr = expr  +  '|' + 'ε)'
+                expr = expr  +  'Ĭ' + 'εƆ'
             else:
                 letra = expr[-1]
                 expr = expr[:-1]
-                expr = expr + '(' + letra + '|' + 'ε)'
+                expr = expr + 'Ƈ' + letra + 'Ĭ' + 'εƆ'
         else:
             expr = expr + r[i]
         i+=1
@@ -1008,7 +1018,7 @@ else:
 rAFD = r
 r = arreglar1(r)
 r = arreglar2(r)
-
+print("EL NUEVO R",repr(r))
 
 # INICIO DE AFD DIRECTO
 # PARA FUTURO METERLO EN SU PROPIA CLASE
@@ -1026,43 +1036,43 @@ rAFD = arreglar2(rAFD)
 r = rAFD
 
 #print("LA RE ES ", r)
-operadoresUtils = ['.','*','(',')','|']
+operadoresUtils = ['ȹ','ɘ','Ƈ','Ɔ','Ĭ']
 # SE UTILIZA LA MISMA LECTURA DE DATOS SOLO QUE ESTA VEZ PARA ARMAR EL ARBOL 
 while i < len(r):
-    if r[i] == '(':
+    if r[i] == 'Ƈ':
         ops.append(r[i])
     elif r[i] not in operadoresUtils:
         values.append(r[i])
-    elif r[i] == ')':
-        while len(ops) != 0 and ops[-1] != '(':
+    elif r[i] == 'Ɔ':
+        while len(ops) != 0 and ops[-1] != 'Ƈ':
             op = ops.pop()
-            if op != '*':
+            if op != 'ɘ':
                 val2 = values.pop()
                 val1 = values.pop()
                 temp = val1+op+val2
                 nodos.append(temp)
-                if(op == '|'):
+                if(op == 'Ĭ'):
                     claseAFDD.crearHojasPipe(val1,val2,op)
                     #clase.crear_nodosPipe(val1,val2,op)
                     ##print("Para el pipe")
-                elif(op == '.'):
+                elif(op == 'ȹ'):
                     #clase.crear_nodosCat(val1,val2,op)
                     claseAFDD.crear_nodosCat(val1,val2,op)
                     ##print("Para el concat")
                 values.append(temp)
         ops.pop()
     else:
-        if(r[i] != '*'):
+        if(r[i] != 'ɘ'):
             while (len(ops) != 0 and precedence(ops[-1]) >= precedence(r[i])):
                 val2 = values.pop()
                 val1 = values.pop()
                 op = ops.pop()
                 temp = val1+op+val2
                 nodos.append(temp)
-                if(op == '|'):
+                if(op == 'Ĭ'):
                     claseAFDD.crearHojasPipe(val1,val2,op)
                     ##print("Para el pipe")
-                elif(op == '.'):
+                elif(op == 'ȹ'):
                     claseAFDD.crear_nodosCat(val1,val2,op)
                     ##print("Para el concat")
                 values.append(temp)
@@ -1086,10 +1096,10 @@ while len(ops) != 0:
     op = ops.pop()
     temp = val1+op+val2
     nodos.append(temp)
-    if(op == '|'):
+    if(op == 'Ĭ'):
         #print("Para el pipe")
         claseAFDD.crearHojasPipe(val1,val2,op)
-    elif(op == '.'):
+    elif(op == 'ȹ'):
         claseAFDD.crear_nodosCat(val1,val2,op)
         #print("Para el concat")
         
@@ -1104,9 +1114,9 @@ aceptacion = []
 
 # EXTRACCION DE INFORMACION PARA ESTADO DE ACEPTACION
 for i in arboles:
-    if(i.get_valor() =='#'):
+    if(i.get_valor() =='Ȟ'):
         aceptacion.append(i.get_iDImportante())
-    '''
+    
     if(len(i.get_hijos()) > 1):
         if(i.get_padreID() != ""):
             print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
@@ -1116,7 +1126,7 @@ for i in arboles:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
     else:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
-    '''
+    
     
 importantes = claseAFDD.get_importantValues()
 #for elemento in importantes:
@@ -1129,7 +1139,7 @@ def nullable(elemento):
     #HAY QUE REVISAR SI ES HOJA O NO, SERA HOJA SI NO TIENE HIJOS
     if(len(elemento.get_hijos()) > 0):
         ##print("NO ES HOJA")
-        if(elemento.get_valor() == "|"):
+        if(elemento.get_valor() == "Ĭ"):
             ##print("C1 OR C2 NULLABLE")
             c1 = nullable(elemento.get_hijos()[0])
             c2 = nullable(elemento.get_hijos()[1])
@@ -1140,7 +1150,7 @@ def nullable(elemento):
                 ##print("NO LO ES")
                 return False
 
-        elif(elemento.get_valor() == "."):
+        elif(elemento.get_valor() == "ȹ"):
             ##print("C1 AND C2 NULLABLE")
             c1 = nullable(elemento.get_hijos()[0])
             c2 = nullable(elemento.get_hijos()[1])
@@ -1167,13 +1177,16 @@ def firstpos(elemento):
     #HAY QUE REVISAR SI ES HOJA O NO, SERA HOJA SI NO TIENE HIJOS
     if(len(elemento.get_hijos()) > 0):
         ##print("NO ES HOJA")
-        if(elemento.get_valor() == "|"):
+        if(elemento.get_valor() == "Ĭ"):
             c1 = firstpos(elemento.get_hijos()[0])
             c2 = firstpos(elemento.get_hijos()[1])
             resp = (c1)+(c2)
             return resp
-        elif(elemento.get_valor() == "."):
+        elif(elemento.get_valor() == "ȹ"):
             h1 = (elemento.get_hijos()[0])
+            #print("-"*20)
+            #print("EL HIJO 1 DE",elemento.get_valor(),elemento.get_id(),"es",h1.get_valor())
+            #print("-"*20)
             if(nullable(h1)):
                 c1 = firstpos(elemento.get_hijos()[0])
                 c2 = firstpos(elemento.get_hijos()[1])
@@ -1196,12 +1209,12 @@ def lastpos(elemento):
     #HAY QUE REVISAR SI ES HOJA O NO, SERA HOJA SI NO TIENE HIJOS
     if(len(elemento.get_hijos()) > 0):
         ##print("NO ES HOJA")
-        if(elemento.get_valor() == "|"):
+        if(elemento.get_valor() == "Ĭ"):
             c1 = lastpos(elemento.get_hijos()[0])
             c2 = lastpos(elemento.get_hijos()[1])
             resp = (c1)+(c2)
             return resp
-        elif(elemento.get_valor() == "."):
+        elif(elemento.get_valor() == "ȹ"):
             h2 = (elemento.get_hijos()[1])
             if(nullable(h2)):
                 c1 = lastpos(elemento.get_hijos()[0])
@@ -1225,13 +1238,14 @@ def followPos(elemento):
     #HAY QUE REVISAR SI ES HOJA O NO, SERA HOJA SI NO TIENE HIJOS
     if(len(elemento.get_hijos()) > 0):
         ##print("NO ES HOJA")
-        if(elemento.get_valor() == "|"):
+        if(elemento.get_valor() == "Ĭ"):
             c1 = lastpos(elemento.get_hijos()[0])
             c2 = lastpos(elemento.get_hijos()[1])
             resp = (c1)+(c2)
             return resp
-        elif(elemento.get_valor() == "."):
+        elif(elemento.get_valor() == "ȹ"):
             h2 = (elemento.get_hijos()[1])
+            #print("EL HIJO 2 DE",elemento.get_valor(),"es",h2.get_valor())
             if(nullable(h2)):
                 c1 = lastpos(elemento.get_hijos()[0])
                 c2 = lastpos(elemento.get_hijos()[1])
@@ -1253,7 +1267,7 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []
@@ -1265,7 +1279,7 @@ followTotal = []
 
 #ASIGNACION DEL FOLLOW POS
 for i in positions:
-    if(i[0].get_valor() == "."):
+    if(i[0].get_valor() == "ȹ"):
         #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
         #print("PARA EL PUNTO",i[0].get_valor(), i[0].get_hijos()[1].get_valor(),i[1],i[2])
         hijo1 =  i[0].get_hijos()[0]
@@ -1284,7 +1298,7 @@ for i in positions:
         #    #print("PARA LA POS XD", contador)
 
 
-    elif(i[0].get_valor() == "*"):
+    elif(i[0].get_valor() == "ɘ"):
         #print("PARA EL ASTERISCO",i[0].get_valor(), i[0].get_hijos()[0].get_valor(),i[1],i[2])
         #print("PARA LA POS XD", i[2],"EL FOLLOW POS XD", i[1])
         followvalores.append(i[2])
@@ -1326,7 +1340,7 @@ diccionarioFollow = {k: diccionarioFollow[k] for k in sorted(diccionarioFollow)}
 
 #OBTENCION DE SIMBOLOS DEL ARBOL
 for i in arboles:
-    if(i.get_valor() != "#" and i.get_valor() != "ε" and len(i.get_hijos()) < 1):
+    if(i.get_valor() != "Ȟ" and i.get_valor() != "ε" and len(i.get_hijos()) < 1):
         simbolos.append(i.get_valor())
 resT = [] 
 for i in simbolos: 
@@ -1417,10 +1431,10 @@ transicionesNuevas, dEstates = Directo(firstposRoot, simbolos, importantes)
 # SELECCION DE ESTADOS DE ACEPTACION
 llave = []
 aceptacionA = []
-print("NODOS ACEPTACION", aceptacion)
-print("-"*100)
-for k,v in token.items():
-    print(k,v)
+#print("NODOS ACEPTACION", aceptacion)
+#print("-"*100)
+#for k,v in token.items():
+#    print(k,v)
 
 dicAceptado = {}
 contadorA = 0
@@ -1428,8 +1442,8 @@ for k,v in token.items():
     dicAceptado[k] = aceptacion[contadorA]
     contadorA +=1
 
-print("DICCIONARIO ACEPTACION",dicAceptado)
-print("-"*100)
+#print("DICCIONARIO ACEPTACION",dicAceptado)
+#print("-"*100)
 
 for i in dEstates:
     for j in i:
@@ -1525,7 +1539,7 @@ for i in transicionesNuevas:
     estadosA.append(i[2])
     fad.attr('node', shape='circle')
     fad.edge(i[0], i[2], label=i[1])
-#fad.view()
+fad.view()
 
 #LIMPIEZA DE ESTADOS DE ACEPTACION
 resT = [] 
@@ -1552,11 +1566,12 @@ while(position < len(w)):
         print("TOKEN",repr(tokenR)," NO RECONOCIDO")
     else:
         permitido = True
-        for k,v in excepcion[estadoAceptacion].items():           
-            if(tokenR == v):
-                permitido = False
-                print("TOKEN",repr(tokenR),"-> KEYWORD")
-                break
+        if(len(excepcion)>0):
+            for k,v in excepcion[estadoAceptacion].items():           
+                if(tokenR == v):
+                    permitido = False
+                    print("TOKEN",repr(tokenR),"-> KEYWORD")
+                    break
         if(permitido):
             print("TOKEN",repr(tokenR),"->", estadoAceptacion)
 

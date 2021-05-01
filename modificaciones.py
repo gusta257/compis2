@@ -1,9 +1,9 @@
-import arbol
+import arbolViejo
 from graphviz import Digraph
 import sys
 
-r = "((a|b)(c|d)*)#|(e|f)(g)*#|(h)*#"
-token = {'Token1': '((a|b)(a|b)*)', 'Token2': '(c|d)', 'Token3': '(h)*'}
+r = "a(f|g|h)#|(e|f)(g)*#|(h)*#"
+token = {'Token1': 'a(f|g|h)', 'Token2': '(e|f)(g)*', 'Token3': '(h)*'}
 excepcion = {'Token1': {'while': 'while', 'do': 'do', 'if': 'if', 'switch': 'switch'}, 'Token2': {}, 'Token3': {}}
 
 
@@ -131,7 +131,7 @@ r = arreglar2(r)
 # PARA FUTURO METERLO EN SU PROPIA CLASE
 #print("*------------------AUTOMATA AFD DIRECTO-----------------------------*")
 
-claseAFDD = arbol.Arbol()
+claseAFDD = arbolViejo.Arbol()
 values = []
 ops = []
 i = 0 
@@ -223,7 +223,7 @@ aceptacion = []
 for i in arboles:
     if(i.get_valor() =='#'):
         aceptacion.append(i.get_iDImportante())
-    '''
+    
     if(len(i.get_hijos()) > 1):
         if(i.get_padreID() != ""):
             print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id(),"Y DE",i.get_hijos()[1].get_id())  
@@ -233,7 +233,7 @@ for i in arboles:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y ES PADRE DE",i.get_hijos()[0].get_id())
     else:
         print("LA HOJA",i.get_id(),i.get_valor(),"ES HIJA DE",i.get_padreID().get_id(),"Y NO TIENE HIJOS Y SU ID IMPORTANTE ES",i.get_iDImportante())
-    '''
+    
     
 importantes = claseAFDD.get_importantValues()
 #for elemento in importantes:
@@ -370,7 +370,7 @@ def followPos(elemento):
 #OBTENCION DE LOS NOSOS
 positions = []
 for i in arboles:
-    #print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
+    print("El first pos de", i.get_valor() ,"es",firstpos(i),"y su lastpos es",lastpos(i))
     positions.append((i,firstpos(i),lastpos(i)))
 
 followvalores = []

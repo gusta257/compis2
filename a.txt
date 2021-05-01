@@ -1,0 +1,16 @@
+ident = letter{letter|digit} EXCEPT KEYWORDS.
+string = comillasƇletterƆ{letter}ƇcomillasƆ.
+charnumber = "CHR("digit{digit}")".
+charinterval = "CHR("digit{digit}")""..""CHR("digit{digit}")".
+startcode ="(.".
+endcode=".)".
+
+
+
+------------------
+
+char = "'"["/"]letter"'".
+(')((/))?letter(')
+(')((/)|e)letter(')
+
+string = (")(a|b|c)(a|b|c)*(comillas).

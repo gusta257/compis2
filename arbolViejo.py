@@ -22,10 +22,10 @@ class Arbol:
         global id
         global idImp
 
-        if(len(val1) == 1 and len(val2) == 1 and op =='Ĭ'):
-            #print("IF DE PIPE DE UNA LETRA CON OTRA LETRA")
-            #print("EL VAL 1 ES",val1)
-            #print("EL VAL 2 ES",val2)
+        if(len(val1) == 1 and len(val2) == 1 and op =='|'):
+            print("IF DE PIPE DE UNA LETRA CON OTRA LETRA")
+            print("EL VAL 1 ES",val1)
+            print("EL VAL 2 ES",val2)
             # NODO 1 
             id+=1
             
@@ -76,15 +76,14 @@ class Arbol:
             ##print("LAS ESTRUCTURAS LUEGO DEL ASTERISCO PIPE DE LETRA Y LETRA",self.estructuras)
 
 
-        elif( (len(val1) == 1 and len(val2) > 1) and op =='Ĭ' ):
+        elif( (len(val1) == 1 and len(val2) > 1) and op =='|' ):
             print("IF DE PIPE DONDE EL PRIMER VALOR ES 1 LETRA Y EL SEGUNDO UNA ESTRUCTURA")
-            print("EL VAL 1 ES",repr(val1))
-            print("EL VAL 2 ES",repr(val2))
+            #print("*"*500)
 
-        elif(  (len(val1) > 1 and len(val2) == 1) and op =='Ĭ'):
-            #print("IF DE PIPE DONDE EL PRIMER VALOR ES UNA ESTRUCTURA Y EL SEGUNDO 1 LETRA ")
-            #print("EL VAL 1 ES",val1)
-            #print("EL VAL 2 ES",val2)
+        elif(  (len(val1) > 1 and len(val2) == 1) and op =='|'):
+            print("IF DE PIPE DONDE EL PRIMER VALOR ES UNA ESTRUCTURA Y EL SEGUNDO 1 LETRA ")
+            print("EL VAL 1 ES",val1)
+            print("EL VAL 2 ES",val2)
             #print("estructuras",self.estructuras)
             #print(self.nodos[self.estructuras[-1]-1].get_valor())
             idImp+=1
@@ -109,7 +108,7 @@ class Arbol:
             #print("*"*500)
     
         else:
-            #print("ENTRO AL IF DE PIPE DONDE ES PIPE DE ESTRUCTURAS ")
+            print("ENTRO AL IF DE PIPE DONDE ES PIPE DE ESTRUCTURAS ")
             #print("EL VAL 1 ES",val1)
             #print("EL VAL 2 ES",val2)
             #print("ESTRUCTURAS ANTES",self.estructuras)
@@ -140,9 +139,9 @@ class Arbol:
         ##print("---------------HAY QUE HACER UNA ASTERISCO----------")
         ##print("El val 1 es", val1, "y es de largo de",len(val1))
 
-        if(len(val1) == 1 and op =='ɘ'):
-            #print("IF DE ESTRELLA DONDE EL VAL ES 1")
-            #print("EL VAL 1 ES",val1)
+        if(len(val1) == 1 and op =='*'):
+            print("IF DE ESTRELLA DONDE EL VAL ES 1")
+            print("EL VAL 1 ES",val1)
             id+=1
             if(val1 != "ε"):
                 idImp+=1
@@ -170,8 +169,8 @@ class Arbol:
 
             
         else:
-            #print("IF DE STAR DE UNA OPERACION")
-            #print("EL VAL 1 ES",val1)
+            print("IF DE STAR DE UNA OPERACION")
+            print("EL VAL 1 ES",val1)
             
 
             # NODOS ACTUALIZADOS
@@ -213,9 +212,9 @@ class Arbol:
         #print("El val 1 es", val1, "y es de largo de",len(val1))
         #print("El val 2 es", val2, "y es de largo de",len(val2))
         if(len(val2)==1 and len(val1)>1):
-            #print("IF DE CONCATENAR ESTRUCTURA CON NODO")
-            #print("EL VAL 1 ES",val1)
-            #print("EL VAL 2 ES",val2)
+            print("IF DE CONCATENAR ESTRUCTURA CON NODO")
+            print("EL VAL 1 ES",val1)
+            print("EL VAL 2 ES",val2)
             #print("ESTRUCUTRAS ANTES",self.estructuras)
             # NODOS OPERACION
             hojaH1 = self.nodos[-1]
@@ -257,12 +256,12 @@ class Arbol:
 
             ##print("LAS ESTRUCTURAS LUEGO DEL PIPE DE 1 Y ESTRUCTURA",self.estructuras)
         elif(len(val2)>1 and len(val1)==1):
-            #print("IF DE CONCATENAR NODO CON ESTRUCTURA")
-            #print("EL VAL 1 ES",repr(val1))
-            #print("EL VAL 2 ES",repr(val2))
-            #print("*"*50)
-            #print(self.nodos[-1].get_valor())
-            #print("*"*50)
+            print("IF DE CONCATENAR NODO CON ESTRUCTURA")
+            print("EL VAL 1 ES",repr(val1))
+            print("EL VAL 2 ES",repr(val2))
+            print("*"*50)
+            print(self.nodos[-1].get_valor())
+            print("*"*50)
             hojaH2 = self.nodos[-1]
             id+=1
             ##print("EL ID DEL HIJO1",hojaH2.get_id())
@@ -293,9 +292,9 @@ class Arbol:
             self.estructuras.append(hoja2.get_id())
             
         elif(len(val2)==1 and len(val1)==1):
-            #print("IF DE CONCATENACION SI VAL 1 Y 2 SON LEN 1")
-            #print("EL VAL 1 ES",val1)
-            #print("EL VAL 2 ES",val2)
+            print("IF DE CONCATENACION SI VAL 1 Y 2 SON LEN 1")
+            print("EL VAL 1 ES",val1)
+            print("EL VAL 2 ES",val2)
             id+=1
             ##print("EL ID DEL HIJO1",hojaH1.get_id())
             if(val1 != "ε"):
