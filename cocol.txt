@@ -1,23 +1,27 @@
-COMPILER Aritmetica    
+COMPILER MyCOCOR
+(.//Especificacion de Funciones.)
+CHARACTERS
 
-CHARACTERS 
+letter= "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".
+digit= "0123456789".
 
-letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz". 
-digit = "0123456789" .
+cr = CHR(13).
+lf = CHR(10).
 tab = CHR(9).
-eol = CHR(10).
+ignore = cr+lf+tab.
+comillas = CHR(34).
+stringletter = ANY-comillas-ignore.
 
-KEYWORDS
-
-while = "while".
-do = "do".
-if = "if".
-switch = "switch"
+operadores ="+-=()[]{}|.<>".
+MyANY = ANY-operadores.
 
 TOKENS
 
-ident = letter{letter|digit} EXCEPT KEYWORDS.
-number = digit{digit}.
+
+string = comillas stringletter{stringletter} comillas.
 
 
-END Aritmetica
+IGNORE SET ignore
+
+
+END MyCOCOR

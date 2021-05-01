@@ -744,7 +744,7 @@ def modoAutomata(dictyT):
             
             
     return dictyT
-def modoAuto3(dictyT,dicty):
+def modoAuto4(dictyT,dicty):
     for key, value in dictyT.items():
         for i in reversed(dicty):
             #print(repr(("REEMPLAZAR EL",i,"POR","("+dicty[i]+")")))
@@ -796,6 +796,27 @@ def modoAuto2(dictyT):
             cont+=1
         dictyT[k] = temporal
     return dictyT
+def modoAuto3(dictyT):
+    for k,v in dictyT.items():
+        temp = v
+        temporal = ""
+        cont = 0
+        primera = True
+        segunda = False
+        while cont < len(temp):
+            if(temp[cont] == " " and primera):
+                temporal += "Ƈ"
+                primera = False
+                segunda = True
+            elif((temp[cont] == "Ƈ" or temp[cont] == ".") and segunda):
+                temporal += "Ɔ"+temp[cont]
+                primera = True
+                segunda = False
+            else:
+                temporal += temp[cont]
+            cont+=1
+        dictyT[k] = temporal
+    return dictyT
 
 nuevoDic = Convert(nuevosChars)
 #print("DICCIONARIO SIN PUNTOS",nuevoDic   )
@@ -828,10 +849,14 @@ print("NUEVO DICT modoAutomata",nuevodicT)
 print()
 nuevodicT = modoAuto2(nuevodicT)
 print("NUEVO DICT modoAuto2",nuevodicT)
+for k,v in nuevodicT.items():
+    nuevodicT[k] = v.lstrip()
 #print()
+nuevodicT = modoAuto3(nuevodicT)
+print("NUEVO DICT modoAuto3",nuevodicT)
 #SUSTITUYENDO EN TOKENS EN PARENTESIS
 #print("/////////////////////////////",nuevoDic)
-nuevodicT = modoAuto3(nuevodicT,nuevoDic)
+nuevodicT = modoAuto4(nuevodicT,nuevoDic)
 #print("NUEVO DICT MODOAUTO3",nuevodicT)
 #print()
 #CREANDO DICCIONARIO CON LAS EXCEPCIONES
