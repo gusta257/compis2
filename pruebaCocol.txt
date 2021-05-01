@@ -2,8 +2,7 @@ COMPILER MyCOCOR
 (.//Especificacion de Funciones.)
 CHARACTERS
 
-letter= "ABCDEFGHIJKLMN�OPQRSTUVWXYZabcdefghijklmn�opqrstuvwxyz".
-digit= "0123456789".
+letter= "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".
 
 cr = CHR(13).
 lf = CHR(10).
@@ -12,7 +11,7 @@ ignore = cr+lf+tab.
 comillas = CHR(34).
 stringletter = ANY-comillas-ignore.
 
-operadores ="+-=()[]{}|.<>".
+
 MyANY = ANY-operadores.
 
 TOKENS
@@ -32,3 +31,11 @@ IGNORE SET ignore
 
 
 END MyCOCOR
+
+(..)
+CHR(23)..CHR(45)
+CHR(4)
+'a'
+'/B'
+"hola"
+Variable123

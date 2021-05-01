@@ -1,0 +1,33 @@
+COMPILER Aritmetica    
+
+CHARACTERS 
+
+letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz". 
+digit = "0123456789" .
+tab = CHR(9).
+eol = CHR(10).
+
+KEYWORDS
+
+while = "while".
+do = "do".
+if = "if".
+switch = "switch"
+
+TOKENS
+
+ident = letter{letter|digit} EXCEPT KEYWORDS.
+number = digit{digit}.
+
+
+END Aritmetica
+
+Variable123 45
+6 Juan
+Hola 54
+Mundo0 65
+Comoq vas 5615
+do 45
+while mientras
+if si 
+switch cuando23

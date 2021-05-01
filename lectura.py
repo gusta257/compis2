@@ -1,3 +1,4 @@
+# coding=utf8
 import re
 def char_range(c1, c2):
     """Generates the characters from `c1` to `c2`, inclusive."""
@@ -107,7 +108,8 @@ def checkCharacters(listaCheck):
                         if(len(charN)==3):
                             pass
                         else:
-                            print("CHAR INVALIDO",i)
+                            #print("CHAR INVALIDO",i)
+                            pass
                             #todoB = False
                             #break
 
@@ -365,7 +367,7 @@ def cantSigno(palabra,signoA,signoC,i):
         #print("Todo bien en",signoA,i)
         return True
     else:
-        print("Te falta calle", i)
+        #print("Te falta calle", i)
         return False
 def checkTokens(lista):
     todoB = True
@@ -423,7 +425,10 @@ def removerPuntoChar(lista):
         a.append(i)
     return a
 
-file = open('cocol.txt', 'r',encoding='utf-8')
+
+archivo = input("Ingresa el archivo .ATG para leer: ")
+print()
+file = open(archivo, 'r',encoding='utf-8')
 compBool = False
 charBool = False
 keyBool = False
@@ -441,37 +446,37 @@ for line in file:
 
     if("CHARACTERS" in line):
         #print("INICIO DE CHAR")
-        print(line)
+        #print(line)
         charBool = True
         keyBool = False
         tokBool = False
     elif("KEYWORDS" in line and not "EXCEPT" in line):
         #print("INICIO DE KEY")
-        print(line)
+        #print(line)
         charBool = False
         keyBool = True
         tokBool = False
     elif("TOKENS" in line):
         #print("INICIO DE TOK")
-        print(line)
+        #print(line)
         charBool = False
         keyBool = False
         tokBool = True
     elif("PRODUCTIONS" in line):
         #print("INICIO DE TOK")
-        print(line)
+        #print(line)
         charBool = False
         keyBool = False
         tokBool = False
     elif("IGNORE" in line):
         #print("INICIO DE TOK")
-        print(line)
+        #print(line)
         charBool = False
         keyBool = False
         tokBool = False
     elif("END" in line):
         #print("INICIO DE TOK")
-        print(line)
+        #print(line)
         charBool = False
         keyBool = False
         tokBool = False
@@ -543,6 +548,8 @@ if(validoK):
 
 else:
     print("Error con las Keywords")
+    print("Arregle el archivo Cocol y pruebe de nuevo")
+    exit()
 '''
 ---------------------------------------- EL METODO PARA REVISAR CHARACTERS
 '''
@@ -552,6 +559,8 @@ if(validoC):
     print("Characters sin problemas")
 else:
     print("Error con los Characters")
+    print("Arregle el archivo Cocol y pruebe de nuevo")
+    exit()
 '''
 ---------------------------------------- EL METODO PARA REVISAR TOKENS
 '''
@@ -560,6 +569,8 @@ if(validoT):
     print("Tokens sin problemas")
 else:
     print("Error con los Tokens")
+    print("Arregle el archivo Cocol y pruebe de nuevo")
+    exit()
 print("*"*100)
 
 
@@ -845,15 +856,15 @@ nuevoDic = pipesChar(nuevoDic)
 
 #REEMPLAZO DE LOS PARENTESIS Y DE LOS CORCHETES POR SIMBOLOS DE AUTOMATA
 nuevodicT = modoAutomata(nuevodicT)
-print("NUEVO DICT modoAutomata",nuevodicT)
-print()
+#print("NUEVO DICT modoAutomata",nuevodicT)
+#print()
 nuevodicT = modoAuto2(nuevodicT)
-print("NUEVO DICT modoAuto2",nuevodicT)
+#print("NUEVO DICT modoAuto2",nuevodicT)
 for k,v in nuevodicT.items():
     nuevodicT[k] = v.lstrip()
 #print()
 nuevodicT = modoAuto3(nuevodicT)
-print("NUEVO DICT modoAuto3",nuevodicT)
+#print("NUEVO DICT modoAuto3",nuevodicT)
 #SUSTITUYENDO EN TOKENS EN PARENTESIS
 #print("/////////////////////////////",nuevoDic)
 nuevodicT = modoAuto4(nuevodicT,nuevoDic)
@@ -891,6 +902,7 @@ print()
 print("*"*100)
 print("EXCEPT")
 print(dictExcept)
+print()
 
 superToken = ""
 #print("---------------------------------------",)
@@ -900,9 +912,11 @@ for k,v in nuevodicT.items():
     else:
         superToken +=  "Ƈ"+v+"ƆȞ"
 
-print("EL SUPER TOKEN")
+print("TOKEN GENERADO")
 superToken = repr(superToken)
 print(superToken)
+print()
+print("ANALIZADOR CREADO, NOMBRADO: programaGenerado.py")
 
 multiline_str = """
 # coding=utf8
@@ -914,12 +928,14 @@ import sys
 r = """+r'{}'.format(superToken) +"""
 token = """+r'{}'.format(nuevodicT)+"""
 excepcion = """+r'{}'.format(dictExcept)+"""
-file2 = open('prueba.txt', 'r',encoding='utf-8')
+
+texto = input("Ingresa el archivo txt para analizarlo: ")
+file2 = open(texto, 'r',encoding='utf-8')
 w = ""
 for i in file2:
     w+= i
 
-print("LA FRASE A LEER ES",w)
+#print("LA FRASE A LEER ES",w)
 
 
 
@@ -1034,7 +1050,7 @@ else:
 rAFD = r
 r = arreglar1(r)
 r = arreglar2(r)
-print("EL NUEVO R",repr(r))
+#print("EL NUEVO R",repr(r))
 
 # INICIO DE AFD DIRECTO
 # PARA FUTURO METERLO EN SU PROPIA CLASE
@@ -1491,7 +1507,7 @@ for k, v in nuevoDic.items():
     print("EL VALOR",v)
 '''
 
-print("ACEPTACIONA",aceptacionA)
+#print("ACEPTACIONA",aceptacionA)
 def get_key(my_dict,val):
     for key, value in my_dict.items():
         #print("EL VALUE",type(value))
